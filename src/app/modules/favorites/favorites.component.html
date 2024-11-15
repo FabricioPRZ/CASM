@@ -2,7 +2,11 @@
 <div class="main-container">
     <app-sidebar *ngIf="isSidebarVisible && !isMobileView"></app-sidebar>
     <div class="favorites-container">
-        
+        <app-favorite-card 
+            *ngFor="let item of favoriteItems" 
+            [type]="item.type" 
+            [itemData]="item.itemData">
+        </app-favorite-card>
     </div>
 </div>
 
