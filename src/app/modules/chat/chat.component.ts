@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import { HeaderFeedComponent } from "../../components/header-feed/header-feed.component";
 import { ChatSiderbarComponent } from "../../components/chat-siderbar/chat-siderbar.component";
 import { ChatWindowsComponent } from "../../components/chat-windows/chat-windows.component";
@@ -25,13 +25,22 @@ export class ChatComponent {
     profileImage: ''
   };
   isChatWindowOpen: boolean = false;
+  isMobileView: boolean = window.innerWidth <= 768;
+
+  @HostListener('window:resize')
+  onResize() {
+    this.isMobileView = window.innerWidth <= 768;
+    if (!this.isMobileView) {
+      this.isChatWindowOpen = true;
+    }
+  }
 
   onChatSelected(chat: any) {
     this.selectedChat = chat;
-    this.isChatWindowOpen = true; // Cambia a modo ventana de chat
+    this.isChatWindowOpen = true;
   }
 
   closeChatWindow() {
-    this.isChatWindowOpen = false; // Vuelve a la lista de chats
+    this.isChatWindowOpen = false;
   }
 }

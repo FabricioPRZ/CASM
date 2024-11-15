@@ -38,23 +38,26 @@
     padding: 10px;
 }
 
-.chat-open .back-button {
-    display: flex;
-    align-items: center;
-}
-
 @media (max-width: 768px) {
     .chat-sidebar {
         display: block;
         width: 100%;
-        border-right: none;
     }
 
     .chat-window {
+        display: none;
+    }
+
+    .chat-container.chat-open .chat-sidebar {
+        display: none;
+    }
+
+    .chat-container.chat-open .chat-window {
+        display: flex;
         width: 100%;
     }
 
     .back-button {
-        display: inline-flex;
+        display: inline-flex; 
     }
 }

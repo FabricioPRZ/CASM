@@ -3,7 +3,9 @@
     justify-content: center;
     align-items: center;
     height: 60vh;
-    background-color: #0d3b66;
+    background-image: url('/head-home.webp');
+    background-size: cover;
+    background-position: center;
     color: #fff;
     text-align: center;
 }
@@ -11,11 +13,16 @@
 .hero-h1-class {
     font-size: 48px;
     margin: 0;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+    font-family: "Merriweather Sans", sans-serif;
+    font-weight: bold;
 }
 
 .hero-p-class{
     font-size: 20px;
     margin-top: 20px;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+    font-family: "Merriweather Sans", sans-serif;
 }
 
 .features {

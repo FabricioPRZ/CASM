@@ -1,13 +1,11 @@
 <app-header-feed></app-header-feed>
-<div class="chat-container" [ngClass]="{'chat-open': isChatWindowOpen}">
-  <!-- Sidebar de chats -->
-  <div class="chat-sidebar" *ngIf="!isChatWindowOpen">
+<div class="chat-container" [ngClass]="{'chat-open': isChatWindowOpen && isMobileView}">
+  <div class="chat-sidebar" *ngIf="!isMobileView || !isChatWindowOpen">
     <app-chat-siderbar (chatSelected)="onChatSelected($event)"></app-chat-siderbar>
   </div>
   
-  <!-- Ventana de chat -->
-  <div class="chat-window" *ngIf="isChatWindowOpen">
-    <button class="back-button" (click)="closeChatWindow()">
+  <div class="chat-window" *ngIf="!isMobileView || isChatWindowOpen">
+    <button class="back-button" *ngIf="isMobileView" (click)="closeChatWindow()">
       <i class="fas fa-arrow-left"></i> Volver
     </button>
     <app-chat-windows [chat]="selectedChat" [currentUser]="currentUser"></app-chat-windows>

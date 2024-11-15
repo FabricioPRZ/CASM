@@ -7,7 +7,7 @@ import { User } from '../models/user';
   providedIn: 'root'
 })
 export class UserService {
-  private apiUrl = 'http://localhost:8000/user/';
+  private apiUrl = 'http://localhost:8000/users/';
   private profileUrl = `${this.apiUrl}profile`;
   private uploadImageUrl = `${this.apiUrl}users/1/profile-image`;
 
