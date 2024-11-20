@@ -1,5 +1,4 @@
 import { Component, HostListener } from '@angular/core';
-import { HeaderFeedComponent } from "../../components/header-feed/header-feed.component";
 import { FooterComponent } from "../../components/footer/footer.component";
 import { NoteCardComponent } from '../../components/note-card/note-card.component';
 import { SidebarComponent } from '../../components/sidebar/sidebar.component';
@@ -8,11 +7,12 @@ import { Note } from '../../models/note';
 import { MatDialog } from '@angular/material/dialog';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
+import { HeaderComponent } from "../../components/header/header.component";
 
 @Component({
   selector: 'app-notes',
   standalone: true,
-  imports: [HeaderFeedComponent, FooterComponent, NoteCardComponent, SidebarComponent, NoteDialogComponent, CommonModule],
+  imports: [FooterComponent, NoteCardComponent, SidebarComponent, CommonModule, HeaderComponent],
   templateUrl: './notes.component.html',
   styleUrl: './notes.component.scss'
 })
