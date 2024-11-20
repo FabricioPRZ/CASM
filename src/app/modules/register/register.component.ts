@@ -24,36 +24,42 @@ export class RegisterComponent {
     specialty: "",
     phone: "",
     role: "user",
-    profileImage: ""
+    profileImage: "",
+    isPremium: false,
   };
   
   notificationMessage: string = '';
   showNotification: boolean = false;
+  notificationType: string = '';
 
   constructor(private router: Router, private userService: UserService) {}
 
+  // Función para registrar el usuario
   registerUser() {
     this.userService.registerUser(this.user).subscribe({
       next: (response) => {
         this.notificationMessage = '¡Usuario registrado con éxito!';
+        this.notificationType = 'success';
         this.showNotification = true;
         this.clearForm(); // Limpiar el formulario
         setTimeout(() => {
           this.router.navigate(['/login']);
-        }, 3000);
+        }, 3000); // Redirigir al login después de 3 segundos
       },
       error: (err) => {
+        console.error('Error en el registro:', err);
         this.notificationMessage = 'Error en el registro. Inténtalo de nuevo.';
+        this.notificationType = 'error';
         this.showNotification = true;
       }
     });
   }
-
+  
   redirect_to(event: Event) {
     event.preventDefault();
     this.router.navigate(['/register-voluntary']);
   }
-  // Función para limpiar el formulario
+
   clearForm() {
     this.user = {
       id: 0,
@@ -63,7 +69,8 @@ export class RegisterComponent {
       specialty: "",
       phone: "",
       role: "user",
-      profileImage: ""
+      profileImage: "",
+      isPremium: false,
     };
   }
 }

@@ -1,14 +1,14 @@
 import { Component, HostListener } from '@angular/core';
-import { HeaderFeedComponent } from '../../components/header-feed/header-feed.component';
 import { DirectoryCardComponent } from '../../components/directory-card/directory-card.component';
 import { SidebarComponent } from '../../components/sidebar/sidebar.component';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { HeaderComponent } from "../../components/header/header.component";
 
 @Component({
   selector: 'app-directory',
   standalone: true,
-  imports: [HeaderFeedComponent, DirectoryCardComponent, SidebarComponent, CommonModule],
+  imports: [DirectoryCardComponent, SidebarComponent, CommonModule, HeaderComponent],
   templateUrl: './directory.component.html',
   styleUrl: './directory.component.scss'
 })

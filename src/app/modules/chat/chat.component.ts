@@ -1,28 +1,31 @@
-import { Component, HostListener } from '@angular/core';
-import { HeaderFeedComponent } from "../../components/header-feed/header-feed.component";
+import { Component, HostListener, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { ChatSiderbarComponent } from "../../components/chat-siderbar/chat-siderbar.component";
 import { ChatWindowsComponent } from "../../components/chat-windows/chat-windows.component";
 import { CommonModule } from '@angular/common';
+import { UserService } from '../../services/user.service'; // Servicio para manejar el usuario
 import { User } from '../../models/user';
+import { HeaderComponent } from "../../components/header/header.component";
 
 @Component({
   selector: 'app-chat',
   standalone: true,
-  imports: [HeaderFeedComponent, ChatSiderbarComponent, ChatWindowsComponent, CommonModule],
+  imports: [ChatSiderbarComponent, ChatWindowsComponent, CommonModule, HeaderComponent],
   templateUrl: './chat.component.html',
   styleUrls: ['./chat.component.scss']
 })
-export class ChatComponent {
+export class ChatComponent implements OnInit {
   selectedChat: any;
   currentUser: User = { 
-    id: 1, 
-    name: 'Juan Pérez', 
-    email: 'juan.perez@example.com', 
+    id: 0, 
+    name: '', 
+    email: '', 
     password: '', 
     specialty: '', 
-    phone: '123456789', 
-    role: 'user',
-    profileImage: ''
+    phone: '', 
+    role: '', 
+    profileImage: '',
+    isPremium: false
   };
   isChatWindowOpen: boolean = false;
   isMobileView: boolean = window.innerWidth <= 768;
@@ -35,11 +38,36 @@ export class ChatComponent {
     }
   }
 
+  constructor(private userService: UserService, private router: Router) {}
+
+  ngOnInit(): void {
+    this.loadUserData();
+  }
+
+  // Función para cargar los datos del usuario desde el token de autenticación
+  loadUserData() {
+    const token = localStorage.getItem('access_token');
+    if (token) {
+      this.userService.getUserProfile(token).subscribe({
+        next: (user) => {
+          this.currentUser = user;
+        },
+        error: () => {
+          this.router.navigate(['/login']); // Redirige a login si no se puede obtener el usuario
+        }
+      });
+    } else {
+      this.router.navigate(['/login']);
+    }
+  }
+
+  // Cuando un chat es seleccionado, se abre la ventana del chat
   onChatSelected(chat: any) {
     this.selectedChat = chat;
     this.isChatWindowOpen = true;
   }
 
+  // Cierra la ventana de chat
   closeChatWindow() {
     this.isChatWindowOpen = false;
   }

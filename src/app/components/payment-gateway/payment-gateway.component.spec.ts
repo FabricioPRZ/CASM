@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { HeaderFeedComponent } from './header-feed.component';
+import { PaymentGatewayComponent } from './payment-gateway.component';
 
-describe('HeaderFeedComponent', () => {
-  let component: HeaderFeedComponent;
-  let fixture: ComponentFixture<HeaderFeedComponent>;
+describe('PaymentGatewayComponent', () => {
+  let component: PaymentGatewayComponent;
+  let fixture: ComponentFixture<PaymentGatewayComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [HeaderFeedComponent]
+      imports: [PaymentGatewayComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(HeaderFeedComponent);
+    fixture = TestBed.createComponent(PaymentGatewayComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
