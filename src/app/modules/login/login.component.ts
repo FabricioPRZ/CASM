@@ -5,7 +5,6 @@ import { HeaderComponent } from '../../components/header/header.component';
 import { FooterComponent } from '../../components/footer/footer.component';
 import { FormsModule } from '@angular/forms';
 import { UserService } from '../../services/user.service';
-import { User } from '../../models/user';
 import { NotificationComponent } from '../../components/notification/notification.component';
 
 @Component({
@@ -26,26 +25,13 @@ export class LoginComponent {
 
   // Función para manejar el inicio de sesión
   loginUser() {
-    const user: User = {
-      id: 0,
-      name: '',
-      email: this.email,
-      password: this.password,
-      specialty: '',
-      phone: '',
-      role: '',
-      profileImage: ''
-    };
+    const loginData = { email: this.email, password: this.password };
 
-    // Aquí se implementa el método de inicio de sesión del UserService
-    this.userService.loginUser(user).subscribe({
+    this.userService.loginUser(loginData).subscribe({
       next: (response) => {
-        // Manejo de la respuesta exitosa
-        this.notificationMessage = '¡Inicio de sesión exitoso!';
-        this.showNotification = true;
-        setTimeout(() => {
-          this.router.navigate(['/feed']); // Redirigir después del inicio de sesión
-        }, 3000);
+        // Guardar el token recibido en el almacenamiento local
+        localStorage.setItem('access_token', response.access_token);
+        this.router.navigate(['/feed']);
       },
       error: (err) => {
         // Manejo de errores

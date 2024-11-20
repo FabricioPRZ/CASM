@@ -14,18 +14,19 @@ export class ChatWindowsComponent {
   @Input() chat: any;
   @Input() currentUser: User = {
     id: 0,
-    name: 'Juan', 
-    email: '', 
-    password: '', 
-    specialty: '', 
-    phone: '', 
+    name: 'Juan',
+    email: '',
+    password: '',
+    specialty: '',
+    phone: '',
     role: '',
-    profileImage: ''
+    profileImage: '',
+    isPremium: false
   };
-  
+
   messages = [
-    { text: 'Hola', sender: { id: 1, } },
-    { text: '¿Cómo estás?', sender: { id: 2,} },
+    { text: 'Hola', sender: { id: 1 } },
+    { text: '¿Cómo estás?', sender: { id: 2 } }
   ];
 
   newMessage: string = '';
@@ -34,7 +35,7 @@ export class ChatWindowsComponent {
     if (this.newMessage.trim()) {
       this.messages.push({
         text: this.newMessage,
-        sender: this.currentUser,
+        sender: this.currentUser
       });
       this.newMessage = '';
     }

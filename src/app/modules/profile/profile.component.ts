@@ -1,16 +1,16 @@
 import { Component,  OnInit, HostListener } from '@angular/core';
-import { HeaderFeedComponent } from "../../components/header-feed/header-feed.component";
 import { FooterComponent } from "../../components/footer/footer.component";
 import { HeadComponent } from "../../components/head/head.component";
 import { PublicationCardComponent } from '../../components/publication-card/publication-card.component';
 import { SidebarComponent } from '../../components/sidebar/sidebar.component';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { HeaderComponent } from "../../components/header/header.component";
 
 @Component({
   selector: 'app-profile',
   standalone: true,
-  imports: [HeaderFeedComponent, FooterComponent, PublicationCardComponent, SidebarComponent,  HeadComponent, CommonModule],
+  imports: [PublicationCardComponent, SidebarComponent, HeadComponent, CommonModule, HeaderComponent],
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.scss'
 })

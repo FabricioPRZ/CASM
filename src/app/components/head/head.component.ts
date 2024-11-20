@@ -1,4 +1,3 @@
-// head.component.ts
 import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { UserService } from '../../services/user.service';
@@ -7,12 +6,10 @@ import { User } from '../../models/user';
 
 @Component({
   selector: 'app-head',
-  imports: [],
   standalone: true,
   templateUrl: './head.component.html',
   styleUrls: ['./head.component.scss']
 })
-
 export class HeadComponent {
   user: User = {
     id: 0,
@@ -22,13 +19,19 @@ export class HeadComponent {
     specialty: '',
     phone: '',
     role: '',
-    profileImage: ''
+    profileImage: '',
+    isPremium: false
   };
 
   constructor(private dialog: MatDialog, private userService: UserService) {
-    this.userService.getUserProfile().subscribe((userData) => {
-      this.user = userData;
-    });
+    const token = localStorage.getItem('access_token');
+    if (token) {
+      this.userService.getUserProfile(token).subscribe((userData) => {
+        this.user = userData;
+      });
+    } else {
+      // Maneja el caso en el que no se encuentra el token (redirigir al login, etc.)
+    }
   }
 
   openEditDialog() {
@@ -39,9 +42,14 @@ export class HeadComponent {
 
     dialogRef.afterClosed().subscribe((updatedData: User) => {
       if (updatedData) {
-        this.userService.updateUserProfile(updatedData).subscribe((updatedUser) => {
-          this.user = updatedUser;
-        });
+        const token = localStorage.getItem('access_token');
+        if (token) {
+          this.userService.updateUserProfile(updatedData, token).subscribe((updatedUser) => {
+            this.user = updatedUser;
+          });
+        } else {
+          // Maneja el caso de token no encontrado
+        }
       }
     });
   }
