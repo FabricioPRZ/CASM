@@ -1,7 +1,6 @@
 import { Component, OnInit, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatDialog } from '@angular/material/dialog';
-import { HeaderFeedComponent } from '../../components/header-feed/header-feed.component';
 import { SidebarComponent } from '../../components/sidebar/sidebar.component';
 import { PublicationCardComponent } from '../../components/publication-card/publication-card.component';
 import { PublicationService } from '../../services/publication.service';
@@ -9,11 +8,12 @@ import { Publication } from '../../models/publication';
 import { PublicationDialogComponent } from '../../components/publication-dialog/publication-dialog.component';
 import { NoteCardComponent } from '../../components/note-card/note-card.component';
 import { Router } from '@angular/router';
+import { HeaderComponent } from "../../components/header/header.component";
 
 @Component({
   selector: 'app-feed',
   standalone: true,
-  imports: [HeaderFeedComponent, SidebarComponent, PublicationCardComponent, CommonModule, NoteCardComponent],
+  imports: [SidebarComponent, PublicationCardComponent, CommonModule, NoteCardComponent, HeaderComponent],
   templateUrl: './feed.component.html',
   styleUrls: ['./feed.component.scss']
 })

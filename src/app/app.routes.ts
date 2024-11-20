@@ -10,18 +10,21 @@ import { FavoritesComponent } from './modules/favorites/favorites.component';
 import { ChatComponent } from './modules/chat/chat.component';
 import { AboutComponent } from './modules/about/about.component';
 import { NotesComponent } from './modules/notes/notes.component';
+import { PremiumFormComponent } from './modules/premium-form/premium-form.component';
+import { authGuard } from './services/auth.guard';
 
 export const routes: Routes = [
     {path: "", redirectTo: "home", pathMatch: 'full'},
     {path: "home", component: HomeComponent},
     {path: "login", component: LoginComponent},
-    {path: "feed", component: FeedComponent},
-    {path: "profile", component: ProfileComponent},
+    {path: "feed", component: FeedComponent, canActivate: [authGuard]},
+    {path: "profile", component: ProfileComponent, canActivate: [authGuard]},
     {path: "register",  component: RegisterComponent},
     {path: "register-voluntary", component: RegisterVoluntaryComponent},
-    {path: "directory", component: DirectoryComponent},
-    {path: "favorites", component: FavoritesComponent},
-    {path: "chat", component:  ChatComponent},
+    {path: "directory", component: DirectoryComponent, canActivate: [authGuard]},
+    {path: "favorites", component: FavoritesComponent, canActivate: [authGuard]},
+    {path: "chat", component:  ChatComponent, canActivate: [authGuard]},
     {path: "about", component:  AboutComponent},
-    {path: "notes", component: NotesComponent},
+    {path: "notes", component: NotesComponent, canActivate: [authGuard]},
+    {path: "premium", component: PremiumFormComponent, canActivate: [authGuard]},
 ];

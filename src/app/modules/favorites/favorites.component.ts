@@ -1,15 +1,15 @@
 import { Component, HostListener } from '@angular/core';
-import { HeaderFeedComponent } from "../../components/header-feed/header-feed.component";
 import { FooterComponent } from "../../components/footer/footer.component";
 import { SidebarComponent } from "../../components/sidebar/sidebar.component";
 import { FavoriteCardComponent } from '../../components/favorite-card/favorite-card.component';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
+import { HeaderComponent } from "../../components/header/header.component";
 
 @Component({
   selector: 'app-favorites',
   standalone: true,
-  imports: [HeaderFeedComponent, FooterComponent, SidebarComponent, FavoriteCardComponent, CommonModule],
+  imports: [SidebarComponent, FavoriteCardComponent, CommonModule, HeaderComponent],
   templateUrl: './favorites.component.html',
   styleUrls: ['./favorites.component.scss']
 })

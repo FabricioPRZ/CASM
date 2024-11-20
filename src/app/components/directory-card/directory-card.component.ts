@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-
+//casm
 @Component({
   selector: 'app-directory-card',
   standalone: true,
