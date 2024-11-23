@@ -17,15 +17,18 @@ import { HeaderComponent } from "../../components/header/header.component";
 export class ChatComponent implements OnInit {
   selectedChat: any;
   currentUser: User = { 
-    id: 0, 
-    name: '', 
-    email: '', 
-    password: '', 
-    specialty: '', 
-    phone: '', 
-    role: '', 
-    profileImage: '',
-    isPremium: false
+    id: '',
+    name: '',
+    last_name: '',
+    email: '',
+    password: '',
+    speciality: '',
+    phone: '',
+    role: 'user',
+    document: '',
+    profile_img: '',
+    id_referency: '',
+    premium: false,
   };
   isChatWindowOpen: boolean = false;
   isMobileView: boolean = window.innerWidth <= 768;
@@ -44,9 +47,10 @@ export class ChatComponent implements OnInit {
     this.loadUserData();
   }
 
-  // Función para cargar los datos del usuario desde el token de autenticación
+  // Función para cargar los datos del usuario
   loadUserData() {
-    const token = localStorage.getItem('access_token');
+    // Comentamos la verificación del token para permitir el acceso sin autenticación
+    /* const token = localStorage.getItem('access_token');
     if (token) {
       this.userService.getUserProfile(token).subscribe({
         next: (user) => {
@@ -58,7 +62,23 @@ export class ChatComponent implements OnInit {
       });
     } else {
       this.router.navigate(['/login']);
-    }
+    } */
+
+    // Asignamos un usuario por defecto para pruebas
+    this.currentUser = {
+    id: '',
+    name: '',
+    last_name: '',
+    email: '',
+    password: '',
+    speciality: '',
+    phone: '',
+    role: 'user',
+    document: '',
+    profile_img: '',
+    id_referency: '',
+    premium: false,
+    };
   }
 
   // Cuando un chat es seleccionado, se abre la ventana del chat

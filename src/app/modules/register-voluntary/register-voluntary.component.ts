@@ -16,59 +16,70 @@ import { FormsModule } from '@angular/forms';
   imports: [HeaderComponent, FooterComponent, NotificationComponent, CommonModule, FormsModule]
 })
 export class RegisterVoluntaryComponent {
-  psychologist: User = {
-    id: 0,
-    name: "",
-    email: "",
-    password: "",
-    specialty: "",
-    phone: "",
-    role: "voluntary",  // Asegurarse de que se registre como voluntario (psicólogo)
-    profileImage: "",
-    isPremium: false
-  };
-  
-  notificationMessage: string = '';
-  showNotification: boolean = false;
-  notificationType: string = ''; // 'success' o 'error'
+
+  inputName!: HTMLInputElement;
+  inputLastName!: HTMLInputElement;
+  inputSpeciality!: HTMLInputElement;
+  inputPhone!: HTMLInputElement;
+  inputEmail!: HTMLInputElement;
+  inputPassword!: HTMLInputElement;
+  inputDocument!: HTMLInputElement;
 
   constructor(private router: Router, private userService: UserService) {}
 
+  ngOnInit(): void {
+    this.inputName = document.getElementById('name') as HTMLInputElement;
+    this.inputLastName = document.getElementById('last_name') as HTMLInputElement;
+    this.inputSpeciality = document.getElementById('speciality') as HTMLInputElement;
+    this.inputPhone = document.getElementById('phone') as HTMLInputElement;
+    this.inputEmail = document.getElementById('email') as HTMLInputElement;
+    this.inputPassword = document.getElementById('password') as HTMLInputElement;
+    this.inputDocument = document.getElementById('document') as HTMLInputElement;
+  }
+  
+  notificationMessage: string = '';
+  showNotification: boolean = false;
+  notificationType: string = '';
+
+
   // Función para registrar al psicólogo (voluntario)
-  registerPsychologist() {
-    this.userService.registerUser(this.psychologist).subscribe({
+  registerPsychologist(event : Event): void {
+    event.preventDefault();
+    const name = this.inputName.value;
+    const last_name = this.inputLastName.value;
+    const speciality = this.inputSpeciality.value;
+    const phone = this.inputPhone.value;
+    const email = this.inputEmail.value;
+    const password = this.inputPassword.value;
+    const document = this.inputDocument.value;
+
+    // Crear un nuevo objeto FormData
+    const formData = new FormData();
+    formData.append('name', name);
+    formData.append('last_name', last_name);
+    formData.append('email', email);
+    formData.append('password', password);
+    formData.append('speciality', speciality);
+    formData.append('phone', phone);
+    formData.append('document', document);
+    formData.append('role', 'voluntary');
+
+    this.userService.registerUser(formData).subscribe({
       next: (response) => {
         this.notificationMessage = '¡Voluntario registrado con éxito!';
-        this.notificationType = 'success';  // Notificación exitosa
+        this.notificationType = 'success';
         this.showNotification = true;
-        this.clearForm(); // Limpiar el formulario de entrada
 
-        // Redirigir al login después de 3 segundos
         setTimeout(() => {
           this.router.navigate(['/login']);
         }, 3000);
       },
       error: (err) => {
         this.notificationMessage = 'Error en el registro. Inténtalo de nuevo.';
-        this.notificationType = 'error';  // Notificación de error
+        this.notificationType = 'error';
         this.showNotification = true;
       }
     });
-  }
-
-  // Función para limpiar el formulario después del registro
-  clearForm() {
-    this.psychologist = {
-      id: 0,
-      name: "",
-      email: "",
-      password: "",
-      specialty: "",
-      phone: "",
-      role: "voluntary", // Voluntario (psicólogo)
-      profileImage: "",
-      isPremium: false,
-    };
   }
 
   // Función para redirigir al login

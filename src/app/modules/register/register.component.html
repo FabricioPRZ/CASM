@@ -2,12 +2,18 @@
 <section class="register-container">
     <div class="register-box">
         <h2 class="register-box-h2">Crear Cuenta</h2>
-        <form (ngSubmit)="registerUser()" method="POST">
-            <input class="register-box-input" type="text" name="name" [(ngModel)]="user.name" placeholder="Nombre Completo" required>
-            <input class="register-box-input" type="email" name="email" [(ngModel)]="user.email" placeholder="Correo Electrónico" required>
-            <input class="register-box-input" type="password" name="password" [(ngModel)]="user.password" placeholder="Contraseña" required>
-            <button class="register-box-button" type="submit">Registrar</button>
+        <form>
+            <input class="register-box-input" type="text" id="name" name="name" placeholder="Nombre(s)" required>
+        
+            <input class="register-box-input" type="text" id="last_name" name="last_name" placeholder="Apellido(s)" required>
+        
+            <input class="register-box-input" type="email" id="email" name="email" placeholder="Correo Electrónico" required>
+        
+            <input class="register-box-input" type="password" id="password" name="password" placeholder="Contraseña" required>
+        
+            <button class="register-box-button" type="submit" (click)="registerUser($event)">Registrar</button>
         </form>
+        
         <div class="register-professional">
             <p>¿Eres un profesional de la salud mental? <a class="register-professional-a" (click)="redirect_to($event)">Regístrate como profesional voluntario</a></p>
         </div>
