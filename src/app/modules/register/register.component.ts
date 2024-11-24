@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { UserService } from '../../services/user.service';
-import { User } from '../../models/user';
 import { HeaderComponent } from '../../components/header/header.component';
 import { FooterComponent } from '../../components/footer/footer.component';
 import { NotificationComponent } from '../../components/notification/notification.component';
@@ -54,6 +53,8 @@ export class RegisterComponent implements OnInit{
     // Llamar al servicio para registrar el usuario
     this.userService.registerUser(formData).subscribe(
       () => {
+        this.showNotification = true;
+        this.notificationType = 'success';
         this.notificationMessage = 'Usuario creado con éxito';
         this.router.navigate(['/login']);
       },

@@ -9,6 +9,7 @@ import { PublicationDialogComponent } from '../../components/publication-dialog/
 import { NoteCardComponent } from '../../components/note-card/note-card.component';
 import { Router } from '@angular/router';
 import { HeaderComponent } from "../../components/header/header.component";
+import { Note } from '../../models/note';
 
 @Component({
   selector: 'app-feed',
@@ -19,10 +20,7 @@ import { HeaderComponent } from "../../components/header/header.component";
 })
 export class FeedComponent implements OnInit {
   publications: Publication[] = [];
-  notes: { title: string; content: string }[] = [
-    { title: 'Nota 1', content: 'Contenido de la nota 1' },
-    { title: 'Nota 2', content: 'Contenido de la nota 2' }
-  ];
+  notes: Note[] = [];
   isSidebarVisible: boolean = true;
   isMobileView: boolean = false;
 
@@ -44,9 +42,17 @@ export class FeedComponent implements OnInit {
   }
 
   loadPublications(): void {
-    this.publicationService.getPublications().subscribe((data: Publication[]) => {
-      this.publications = data;
-    });
+    const token = localStorage.getItem('access_token'); // Obtener el token
+
+    if (token) {
+      // Pasar el token a la función de servicio
+      this.publicationService.getPublications(token).subscribe((data: Publication[]) => {
+        this.publications = data;
+      });
+    } else {
+      console.error('No se encontró el token, redirigiendo al login');
+      this.router.navigate(['/login']);
+    }
   }
 
   openPublicationDialog(): void {
