@@ -24,7 +24,11 @@ export class FeedComponent implements OnInit {
   isSidebarVisible: boolean = true;
   isMobileView: boolean = false;
 
-  constructor(private publicationService: PublicationService, private dialog: MatDialog, private router: Router) {}
+  constructor(
+    private publicationService: PublicationService,
+    private dialog: MatDialog,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     this.loadPublications();
@@ -46,8 +50,16 @@ export class FeedComponent implements OnInit {
 
     if (token) {
       // Pasar el token a la función de servicio
-      this.publicationService.getPublications(token).subscribe((data: Publication[]) => {
-        this.publications = data;
+      this.publicationService.getPublications().subscribe({
+        next: (data: Publication[]) => {
+          this.publications = data;
+        },
+        error: (err) => {
+          console.error('Error al cargar publicaciones:', err);
+          if (err.status === 401) {
+            this.router.navigate(['/login']);
+          }
+        },
       });
     } else {
       console.error('No se encontró el token, redirigiendo al login');
@@ -66,17 +78,15 @@ export class FeedComponent implements OnInit {
   }
 
   onShare(note: { title: string; content: string }): void {
-    const newPublication: Publication = {
-      id: 0,
-      user_id: 1,
-      user_name: 'nombre de usuario',
-      description: note.content,
-      image: ''
-    };
+    // Crear un objeto FormData para compartir una nota como publicación
+    const formData = new FormData();
+    formData.append('description', note.content);
+    // La imagen puede ser opcional
+    formData.append('image', '');
 
-    this.publicationService.createPublication(newPublication).subscribe({
+    this.publicationService.createPublication(formData).subscribe({
       next: () => this.loadPublications(),
-      error: (err) => console.error('Error al compartir la nota en el feed', err),
+      error: (err) => console.error('Error al compartir la nota en el feed:', err),
     });
   }
 

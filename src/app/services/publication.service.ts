@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 import { Publication } from '../models/publication';
 
 @Injectable({
@@ -12,37 +13,52 @@ export class PublicationService {
   constructor(private http: HttpClient) {}
 
   // Crear una nueva publicación
-  createPublication(publication: Publication): Observable<Publication> {
-    const token = localStorage.getItem('access_token'); // Obtener el token
-    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-
-    return this.http.post<Publication>(this.apiUrl, publication, { headers });
+  createPublication(formData: FormData): Observable<Publication> {
+    return this.http.post<Publication>(this.apiUrl, formData).pipe(
+      catchError(this.handleError)
+    );
   }
+  
+  
 
   // Obtener todas las publicaciones
-  getPublications(token: string): Observable<Publication[]> {
-    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    return this.http.get<Publication[]>(this.apiUrl, { headers });
+  getPublications(): Observable<Publication[]> {
+    return this.http.get<Publication[]>(this.apiUrl);
   }
 
   // Obtener una publicación por su ID
   getPublicationById(publicationId: number): Observable<Publication> {
-    const token = localStorage.getItem('access_token');
-    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    return this.http.get<Publication>(`${this.apiUrl}${publicationId}`, { headers });
+    return this.http.get<Publication>(`${this.apiUrl}${publicationId}`).pipe(
+      catchError(this.handleError)
+    );
   }
 
   // Actualizar una publicación
   updatePublication(publication: Publication): Observable<Publication> {
-    const token = localStorage.getItem('access_token');
-    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    return this.http.put<Publication>(`${this.apiUrl}${publication.id}`, publication, { headers });
+    const formData = new FormData();
+    formData.append('description', publication.description);
+    if (publication.image) {
+      formData.append('image', publication.image); // Asegúrate de que `publication.image` sea un archivo.
+    }
+  
+    return this.http.put<Publication>(`${this.apiUrl}${publication.id}`, formData, {
+      headers: { Accept: 'application/json' },
+    }).pipe(
+      catchError(this.handleError)
+    );
   }
+  
 
   // Eliminar una publicación
   deletePublication(publicationId: number): Observable<Publication> {
-    const token = localStorage.getItem('access_token');
-    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    return this.http.delete<Publication>(`${this.apiUrl}${publicationId}`, { headers });
+    return this.http.delete<Publication>(`${this.apiUrl}${publicationId}`).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+  // Manejo de errores centralizado
+  private handleError(error: any): Observable<never> {
+    console.error('Ocurrió un error en la solicitud:', error);
+    return throwError(() => error);
   }
 }

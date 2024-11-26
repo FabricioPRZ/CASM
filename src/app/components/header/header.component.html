@@ -5,6 +5,7 @@
       <!-- Si el usuario está logeado, mostrar estas opciones -->
       <ng-container *ngIf="isLoggedIn; else loggedOut">
         <div class="nav-class" *ngIf="!isMobileView">
+          <a class="nav-class-a" (click)="redirect_to_profile($event)">Perfil</a>
           <a class="nav-class-a" (click)="redirect_to_home($event)">Inicio</a>
           <a class="nav-class-a" (click)="redirect_to_directory($event)">Directorio</a>
           <a class="nav-class-a" (click)="redirect_to_premium($event)">Premium</a>
@@ -12,7 +13,7 @@
         </div>
         <!-- Foto de perfil y menú móvil -->
         <div class="user-section">
-          <img 
+          <img
             [src]="userProfileImage" 
             alt="User Profile" 
             class="user-profile-img"
@@ -25,6 +26,8 @@
             class="mobile-menu" 
             [class.open]="isMobileMenuOpen"
           >
+            <a class="nav-class-a" (click)="redirect_to_profile($event)">Perfil</a>
+            <a class="nav-class-a" (click)="redirect_to_home($event)">Inicio</a>
             <a class="nav-class-a" (click)="redirect_to_directory($event)">Directorio</a>
             <a class="nav-class-a" (click)="redirect_to_premium($event)">Premium</a>
             <a class="nav-class-a" (click)="logout($event)">Cerrar Sesión</a>

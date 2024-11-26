@@ -21,24 +21,30 @@ import { FormsModule } from '@angular/forms';
 })
 export class PublicationDialogComponent {
   description: string = '';
-  image: string = '';
-  user_id: number = 1;
+  selectedFile: File | null = null; // Para manejar el archivo seleccionado
 
   constructor(
     public dialogRef: MatDialogRef<PublicationDialogComponent>,
     private publicationService: PublicationService
   ) {}
 
-  onSubmit(): void {
-    const publication: Publication = {
-      id: 0,
-      user_id: this.user_id,
-      user_name: "Nombre del Usuario",
-      description: this.description,
-      image: this.image,
-    };
+  // Maneja el archivo seleccionado por el usuario
+  onFileSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      this.selectedFile = input.files[0];
+    }
+  }
 
-    this.publicationService.createPublication(publication).subscribe({
+  onSubmit(): void {
+    // Crear FormData
+    const formData = new FormData();
+    formData.append('description', this.description);
+    if (this.selectedFile) {
+      formData.append('image', this.selectedFile);
+    }
+
+    this.publicationService.createPublication(formData).subscribe({
       next: () => {
         this.dialogRef.close(true);
       },

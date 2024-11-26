@@ -1,14 +1,15 @@
 import { CommonModule } from '@angular/common';
 import { Component, HostListener, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { AuthService } from '../../services/auth.service'; // Importar AuthService
+import { AuthService } from '../../services/auth.service';
+import { JwtDecoderService } from '../../services/jwt-decoder.service'; // Importar el servicio de decodificación
 
 @Component({
   selector: 'app-header',
   standalone: true,
   imports: [CommonModule],
   templateUrl: './header.component.html',
-  styleUrls: ['./header.component.scss']
+  styleUrls: ['./header.component.scss'],
 })
 export class HeaderComponent implements OnInit {
   isLoggedIn: boolean = false;
@@ -17,32 +18,53 @@ export class HeaderComponent implements OnInit {
   isMobileMenuOpen: boolean = false;
   isMobileView: boolean = false;
 
-  constructor(private router: Router, private authService: AuthService) {}
+  constructor(
+    private router: Router,
+    private authService: AuthService,
+    private jwtDecoderService: JwtDecoderService // Inyectar el servicio de decodificación
+  ) {}
+
   ngOnInit(): void {
-    // Verifica si hay un token en localStorage
     const token = localStorage.getItem('access_token');
+
     if (token) {
-      // Lógica para verificar si el token es válido
-      this.authService.setLoggedIn(true);  // Si el token es válido, mantiene la sesión activa
+      try {
+        // Decodificar el token para obtener datos del usuario
+        const decodedToken = this.jwtDecoderService.decodeToken(token);
+
+        if (decodedToken) {
+          this.userName = decodedToken.name || 'Usuario'; // Cambiar "name" al campo correcto del token
+          console.log('Token decodificado correctamente:', decodedToken);
+        } else {
+          console.warn('El token no contiene datos válidos.');
+        }
+
+        // Marcar la sesión como activa si el token es válido
+        this.authService.setLoggedIn(true);
+      } catch (error) {
+        console.error('Error al decodificar el token:', error);
+        this.authService.setLoggedIn(false);
+      }
     } else {
-      this.authService.setLoggedIn(false);  // Si no hay token, redirige al login
+      console.warn('No se encontró un token de acceso en localStorage.');
+      this.authService.setLoggedIn(false);
     }
-  
+
+    // Suscribirse al estado de autenticación
     this.authService.loggedIn$.subscribe((status) => {
       this.isLoggedIn = status;
-  
+
       if (status) {
-        this.userProfileImage = localStorage.getItem('userProfileImage') || 'default-profile.png';
-        this.userName = localStorage.getItem('userName') || 'Usuario';
+        this.userProfileImage =
+          localStorage.getItem('userProfileImage') || 'usuario.png';
       } else {
         this.userProfileImage = '';
         this.userName = '';
       }
     });
-  
+
     this.updateViewMode();
   }
-  
 
   @HostListener('window:resize', ['$event'])
   onResize(event: any): void {
@@ -65,6 +87,11 @@ export class HeaderComponent implements OnInit {
   redirect_to_login(event: Event): void {
     event.preventDefault();
     this.router.navigate(['/login']);
+  }
+
+  redirect_to_profile(event: Event): void {
+    event.preventDefault();
+    this.router.navigate(['/profile']);
   }
 
   redirect_to_home(event: Event): void {

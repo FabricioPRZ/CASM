@@ -11,7 +11,6 @@
       <p>¿No tienes cuenta? <a class="create-account-a" (click)="redirect_to_register($event)">Crear una cuenta de usuario</a></p>
       <p>¿Eres un profesional de la salud mental? <a class="create-account-a" (click)="redirect_to_register_voluntary($event)">Crear una cuenta de profesional voluntario</a></p>
     </div>
-    <app-notification *ngIf="showNotification" [message]="notificationMessage" [type]="notificationMessage.includes('exitoso') ? 'success' : 'error'"></app-notification>
   </div>
 </section>
 <app-footer></app-footer>

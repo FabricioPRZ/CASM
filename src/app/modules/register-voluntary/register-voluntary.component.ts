@@ -46,23 +46,23 @@ export class RegisterVoluntaryComponent implements OnInit {
     event.preventDefault();
 
     // Obtenemos los valores de los campos
-    const name = this.inputName.value;
-    const lastName = this.inputLastName.value;
-    const speciality = this.inputSpeciality.value;
-    const phone = this.inputPhone.value;
-    const email = this.inputEmail.value;
-    const password = this.inputPassword.value;
+    const name = this.inputName.value.trim();
+    const lastName = this.inputLastName.value.trim();
+    const speciality = this.inputSpeciality.value.trim();
+    const phone = this.inputPhone.value.trim() || ''; // Enviar cadena vacía si no se usa
+    const email = this.inputEmail.value.trim();
+    const password = this.inputPassword.value.trim();
     const fileInput = this.inputDocument;
 
-    // Validación de campos vacíos
-    if (!name || !lastName || !speciality || !phone || !email || !password) {
-      this.notificationMessage = 'Por favor, completa todos los campos.';
+    // Validación de campos obligatorios
+    if (!name || !email || !password) {
+      this.notificationMessage = 'Por favor, completa todos los campos obligatorios.';
       this.notificationType = 'error';
       this.showNotification = true;
       return;
     }
 
-    // Verificamos si el archivo existe
+    // Verificar archivo cargado
     if (!fileInput?.files?.length) {
       this.notificationMessage = 'Por favor, carga el documento de validación.';
       this.notificationType = 'error';
@@ -70,18 +70,22 @@ export class RegisterVoluntaryComponent implements OnInit {
       return;
     }
 
-    const document = fileInput.files[0]; // Accedemos al archivo cargado
+    const file = fileInput.files[0];
+    // Depuración: ver qué datos se están enviando
+  console.log('Datos a enviar:', {
+    name, lastName, speciality, phone, email, password, file
+  });
 
-    // Crear un nuevo objeto FormData
+    // Crear el objeto FormData
     const formData = new FormData();
     formData.append('name', name);
     formData.append('last_name', lastName);
     formData.append('email', email);
     formData.append('password', password);
     formData.append('speciality', speciality);
-    formData.append('phone', phone);
-    formData.append('document', document); // Aseguramos que el archivo no es undefined
-    formData.append('role', 'voluntary'); // Rol específico para voluntarios
+    formData.append('phone', phone); // Enviar cadena vacía si está vacío
+    formData.append('role', 'voluntary'); // Rol específico
+    formData.append('document', file); // Archivo sin codificar en base64
 
     // Llamar al servicio para registrar al voluntario
     this.userService.registerUser(formData).subscribe(
@@ -92,7 +96,10 @@ export class RegisterVoluntaryComponent implements OnInit {
         this.router.navigate(['/login']);
       },
       (error: any) => {
-        this.notificationMessage = 'Error al crear el usuario';
+        console.error('Error en la solicitud:', error);
+        this.notificationMessage = 'Error al crear el usuario: ' + (error.error?.message || 'Inténtalo nuevamente.');
+        this.notificationType = 'error';
+        this.showNotification = true;
       }
     );
   }

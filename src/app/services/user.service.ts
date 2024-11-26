@@ -29,7 +29,6 @@ export class UserService {
     );
   }
   
-
   // Método para obtener el perfil del usuario, utilizando el token
   getUserProfile(token: string): Observable<User> {
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
@@ -46,8 +45,6 @@ export class UserService {
   registerUser(formData: FormData): Observable<any> {
     return this.http.post<any>(this.apiUrl, formData);
   }
-  
-  
 
   // Método para actualizar el perfil del usuario
   updateUserProfile(user: User, token: string): Observable<User> {
