@@ -1,6 +1,6 @@
 <div class="head">
     <div class="profile-section">
-        <img class="head-img" src="{{ user.profileImage || 'usuario.png' }}" alt="photo-profile">
+        <img class="head-img" src="{{ user.profile_img || 'usuario.png' }}" alt="photo-profile">
         <i class="fas fa-edit edit-icon" (click)="openEditDialog()" title="Editar foto de perfil"></i>
         <h2 class="user-name">{{ user.name }}</h2>
     </div>

@@ -4,4 +4,5 @@ export interface Publication {
     user_name: string;
     description: string;
     image: string;
-}
+  }
+  

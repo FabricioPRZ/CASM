@@ -12,15 +12,18 @@ import { User } from '../../models/user';
 })
 export class HeadComponent {
   user: User = {
-    id: 0,
-    name: 'Jose Martinez',
+    id: '',
+    name: '',
+    last_name: '',
     email: '',
     password: '',
-    specialty: '',
+    speciality: '',
     phone: '',
-    role: '',
-    profileImage: '',
-    isPremium: false
+    role: 'user',
+    document: '',
+    profile_img: '',
+    id_referency: '',
+    premium: false,
   };
 
   constructor(private dialog: MatDialog, private userService: UserService) {

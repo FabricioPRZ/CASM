@@ -2,21 +2,33 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { User } from '../models/user';
+import { catchError } from 'rxjs';
+import { of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
-  private apiUrl = 'http://localhost:8000/';
-  private loginUrl = 'http://localhost:8000/login/';
+  private apiUrl = 'https://casmback.integrador.xyz/users/';
+  private loginUrl = 'https://casmback.integrador.xyz/login';
 
   constructor(private http: HttpClient) {}
 
   // Método para iniciar sesión
   loginUser(loginData: { email: string; password: string }): Observable<any> {
-    return this.http.post<any>(this.loginUrl, loginData);
+    const headers = new HttpHeaders()
+      .set('Content-Type', 'application/json')
+      .set('accept', 'application/json');
+      
+    return this.http.post<any>(this.loginUrl, loginData, { headers }).pipe(
+      catchError(error => {
+        // Manejo de error para login
+        console.error('Error en inicio de sesión:', error);
+        return of({ error: true, message: 'No se pudo iniciar sesión. Verifica tus credenciales.' });
+      })
+    );
   }
-
+  
   // Método para obtener el perfil del usuario, utilizando el token
   getUserProfile(token: string): Observable<User> {
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
@@ -30,8 +42,8 @@ export class UserService {
   }
 
   // Método para registrar un nuevo usuario
-  registerUser(user: User): Observable<User> {
-    return this.http.post<User>(this.apiUrl + 'register', user);
+  registerUser(formData: FormData): Observable<any> {
+    return this.http.post<any>(this.apiUrl, formData);
   }
 
   // Método para actualizar el perfil del usuario

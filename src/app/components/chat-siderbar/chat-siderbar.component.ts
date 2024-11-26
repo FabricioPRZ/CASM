@@ -1,5 +1,4 @@
-import { Component, input, Input, Output } from '@angular/core';
-import { EventEmitter } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -7,17 +6,22 @@ import { CommonModule } from '@angular/common';
   standalone: true,
   imports: [CommonModule],
   templateUrl: './chat-siderbar.component.html',
-  styleUrl: './chat-siderbar.component.scss'
+  styleUrls: ['./chat-siderbar.component.scss']
 })
 export class ChatSiderbarComponent {
   @Output() chatSelected = new EventEmitter<any>();
+  @Input() isPremium: boolean = true; // Recibe si el usuario es premium
 
   chats = [
-    { id: 1, name: 'Chat 1',  lastMessage: 'Hola' },
-    { id: 2, name: 'Chat 2',   lastMessage: 'Como estas?' },
+    { id: '', name: 'Chat 1', lastMessage: 'Hola' },
+    { id: '', name: 'Chat 2', lastMessage: '¿Cómo estás?' },
   ];
 
-  selectChat(chat: any){
+  selectChat(chat: any) {
     this.chatSelected.emit(chat);
+  }
+
+  openChatBot() {
+    this.chatSelected.emit({ id: 0, name: 'Chat Bot', lastMessage: 'Bienvenido al Chat Bot' });
   }
 }

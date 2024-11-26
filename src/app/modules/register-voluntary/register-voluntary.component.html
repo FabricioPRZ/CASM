@@ -1,22 +1,23 @@
 <app-header></app-header>
 <section class="register-container">
-    <div class="register-box">
-        <h2 class="register-box-h2">Registro de Profesional Voluntario</h2>
-        <form (ngSubmit)="registerPsychologist()" class="register-box-form">
-            <input class="register-box-input" type="text" [(ngModel)]="psychologist.name" name="name" placeholder="Nombre Completo" required>
-            <input class="register-box-input" type="text" [(ngModel)]="psychologist.specialty" name="specialty" placeholder="Especialidad" required>
-            <input class="register-box-input" type="tel" [(ngModel)]="psychologist.phone" name="phone" placeholder="Teléfono" required>
-            <input class="register-box-input" type="email" [(ngModel)]="psychologist.email" name="email" placeholder="Correo Electrónico" required>
-            <input class="register-box-input" type="password" [(ngModel)]="psychologist.password" name="password" placeholder="Contraseña" required>
-            <div class="register-box-file">
-                <label class="register-box-label" for="file-upload">Documento de Validación:</label>
-                <input class="register-box-file-input" id="file-upload" type="file" name="file" required>
-            </div>
-            <div class="register-box-button-container">
-                <button class="register-box-button" type="submit">Registrar</button>
-            </div>
-        </form>
-    </div>
+  <div class="register-box">
+    <h2 class="register-box-h2">Registro de Profesional Voluntario</h2>
+    <form class="register-box-form">
+      <input class="register-box-input" type="text" id="name" name="name" placeholder="Nombre(s)" required>
+      <input class="register-box-input" type="text" id="last_name" name="last_name" placeholder="Apellido(s)" required>
+      <input class="register-box-input" type="text" id="speciality" name="speciality" placeholder="Especialidad" required>
+      <input class="register-box-input" type="tel" id="phone" name="phone" placeholder="Teléfono" required>
+      <input class="register-box-input" type="email" id="email" name="email" placeholder="Correo Electrónico" required>
+      <input class="register-box-input" type="password" id="password" name="password" placeholder="Contraseña" required>
+      <div class="register-box-file">
+        <label class="register-box-label" for="file-upload">Documento de Validación:</label>
+        <input class="register-box-file-input" id="file-upload" type="file" name="file" required>
+      </div>
+      <div class="register-box-button-container">
+        <button class="register-box-button" type="submit" (click)="registerVoluntary($event)">Registrar</button>
+      </div>
+    </form>
+  </div>
 </section>
 <app-notification *ngIf="showNotification" [message]="notificationMessage" [type]="notificationMessage.includes('éxito') ? 'success' : 'error'"></app-notification>
 <app-footer></app-footer>

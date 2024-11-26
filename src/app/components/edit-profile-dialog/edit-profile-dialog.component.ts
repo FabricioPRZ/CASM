@@ -25,9 +25,9 @@ export class EditProfileDialogComponent {
     this.editProfileForm = this.fb.group({
       name: [data.name, [Validators.required]],
       email: [data.email, [Validators.required, Validators.email]],
-      specialty: [data.specialty],
+      specialty: [data.speciality],
       phone: [data.phone, [Validators.required]],
-      profileImage: [data.profileImage]
+      profileImage: [data.profile_img]
     });
   }
 

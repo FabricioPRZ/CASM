@@ -9,6 +9,7 @@ import { PublicationDialogComponent } from '../../components/publication-dialog/
 import { NoteCardComponent } from '../../components/note-card/note-card.component';
 import { Router } from '@angular/router';
 import { HeaderComponent } from "../../components/header/header.component";
+import { Note } from '../../models/note';
 
 @Component({
   selector: 'app-feed',
@@ -19,14 +20,15 @@ import { HeaderComponent } from "../../components/header/header.component";
 })
 export class FeedComponent implements OnInit {
   publications: Publication[] = [];
-  notes: { title: string; content: string }[] = [
-    { title: 'Nota 1', content: 'Contenido de la nota 1' },
-    { title: 'Nota 2', content: 'Contenido de la nota 2' }
-  ];
+  notes: Note[] = [];
   isSidebarVisible: boolean = true;
   isMobileView: boolean = false;
 
-  constructor(private publicationService: PublicationService, private dialog: MatDialog, private router: Router) {}
+  constructor(
+    private publicationService: PublicationService,
+    private dialog: MatDialog,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     this.loadPublications();
@@ -44,9 +46,25 @@ export class FeedComponent implements OnInit {
   }
 
   loadPublications(): void {
-    this.publicationService.getPublications().subscribe((data: Publication[]) => {
-      this.publications = data;
-    });
+    const token = localStorage.getItem('access_token'); // Obtener el token
+
+    if (token) {
+      // Pasar el token a la función de servicio
+      this.publicationService.getPublications().subscribe({
+        next: (data: Publication[]) => {
+          this.publications = data;
+        },
+        error: (err) => {
+          console.error('Error al cargar publicaciones:', err);
+          if (err.status === 401) {
+            this.router.navigate(['/login']);
+          }
+        },
+      });
+    } else {
+      console.error('No se encontró el token, redirigiendo al login');
+      this.router.navigate(['/login']);
+    }
   }
 
   openPublicationDialog(): void {
@@ -60,17 +78,15 @@ export class FeedComponent implements OnInit {
   }
 
   onShare(note: { title: string; content: string }): void {
-    const newPublication: Publication = {
-      id: 0,
-      user_id: 1,
-      user_name: 'nombre de usuario',
-      description: note.content,
-      image: ''
-    };
+    // Crear un objeto FormData para compartir una nota como publicación
+    const formData = new FormData();
+    formData.append('description', note.content);
+    // La imagen puede ser opcional
+    formData.append('image', '');
 
-    this.publicationService.createPublication(newPublication).subscribe({
+    this.publicationService.createPublication(formData).subscribe({
       next: () => this.loadPublications(),
-      error: (err) => console.error('Error al compartir la nota en el feed', err),
+      error: (err) => console.error('Error al compartir la nota en el feed:', err),
     });
   }
 

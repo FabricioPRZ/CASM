@@ -2,15 +2,15 @@
 <section class="login-container">
   <div class="login-box">
     <h2 class="login-box-h2">Iniciar Sesión</h2>
-    <form (ngSubmit)="loginUser()">
-      <input [(ngModel)]="email" class="login-box-input" type="email" name="email" placeholder="Correo Electrónico" required>
-      <input [(ngModel)]="password" class="login-box-input" type="password" name="password" placeholder="Contraseña" required>
+    <form (ngSubmit)="loginUser($event)">
+      <input id="email" class="login-box-input" type="email" name="email" placeholder="Correo Electrónico" required>
+      <input id="password" class="login-box-input" type="password" name="password" placeholder="Contraseña" required>
       <button class="login-box-button" type="submit">Ingresar</button>
     </form>
     <div class="create-account">
       <p>¿No tienes cuenta? <a class="create-account-a" (click)="redirect_to_register($event)">Crear una cuenta de usuario</a></p>
       <p>¿Eres un profesional de la salud mental? <a class="create-account-a" (click)="redirect_to_register_voluntary($event)">Crear una cuenta de profesional voluntario</a></p>
     </div>
-    <app-notification *ngIf="showNotification" [message]="notificationMessage" [type]="notificationMessage.includes('exitoso') ? 'success' : 'error'"></app-notification>  </div>
+  </div>
 </section>
 <app-footer></app-footer>
