@@ -8,6 +8,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { HeaderComponent } from "../../components/header/header.component";
+import { NotesService } from '../../services/notes.service';
 
 @Component({
   selector: 'app-notes',
@@ -22,7 +23,7 @@ export class NotesComponent {
   isSidebarVisible: boolean = true;
   isMobileView: boolean = false;
   
-  constructor(private dialog: MatDialog, private router: Router) {}
+  constructor(private dialog: MatDialog, private router: Router, private notesService: NotesService) {}
 
   ngOnInit(): void {
     this.loadNotes();
@@ -30,11 +31,14 @@ export class NotesComponent {
   }
 
   loadNotes(): void {
-    this.notes = [
-      { title: 'Nota 1', content: 'Contenido de la nota 1' },
-      { title: 'Nota 2', content: 'Contenido de la nota 2' },
-      { title: 'Nota 3', content: 'Contenido de la nota 3' }
-    ];
+    this.notesService.getNotes().subscribe({
+      next: (fetchedNotes) => {
+        this.notes = fetchedNotes;
+      },
+      error: (err) => {
+        console.error('Error al cargar las notas:', err);
+      },
+    });
   }
 
   redirect_to_favorites(event: Event): void {
@@ -69,13 +73,29 @@ export class NotesComponent {
 
   openNoteDialog(): void {
     const dialogRef = this.dialog.open(NoteDialogComponent, {
-      width: '400px'
+      width: '400px',
     });
-
-    dialogRef.afterClosed().subscribe(result => {
+  
+    dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        this.notes.push(result);
+        const userId = localStorage.getItem('user_id') || ''; // Obtener el user_id (asegúrate de que esté disponible)
+        const newNote: Omit<Note, 'id' | 'createdAt'> = {
+          title: result.title,
+          description: result.content,
+          image: result.image,
+        };
+  
+        this.notesService.createNote(newNote, userId).subscribe({
+          next: (createdNote) => {
+            this.notes.push(createdNote); // Agregar la nueva nota a la lista
+          },
+          error: (err) => {
+            console.error('Error al guardar la nota:', err);
+          },
+        });
       }
     });
   }
+  
+  
 }

@@ -1,24 +1,23 @@
 <div class="dialog-container">
-    <h2 class="dialog-title">Crear Nueva Nota</h2>
-    <form>
-      <mat-form-field appearance="outline" class="dialog-input">
-        <mat-label>Título de la Nota</mat-label>
-        <input matInput [(ngModel)]="noteTitle" required>
-      </mat-form-field>
-  
-      <mat-form-field appearance="outline" class="dialog-input">
-        <mat-label>Contenido de la Nota</mat-label>
-        <textarea matInput [(ngModel)]="noteContent" required class="note-textarea"></textarea>
-      </mat-form-field>
-  
-      <div class="file-upload">
-        <input type="file" (change)="onImageUpload($event)" accept="image/*" />
-      </div>
-  
-      <div class="dialog-actions">
-        <button mat-button class="action-button" (click)="closeDialog()">Cancelar</button>
-        <button mat-button class="action-button" (click)="saveNote()">Guardar</button>
-      </div>
-    </form>
-  </div>
-  
+  <h2 class="dialog-title">Crear Nueva Nota</h2>
+  <form (ngSubmit)="saveNote()">
+    <mat-form-field appearance="outline" class="dialog-input">
+      <mat-label>Título de la Nota</mat-label>
+      <input matInput [(ngModel)]="noteTitle" required name="title">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="dialog-input">
+      <mat-label>Contenido de la Nota</mat-label>
+      <textarea matInput [(ngModel)]="noteContent" required class="note-textarea" name="content"></textarea>
+    </mat-form-field>
+
+    <div class="file-upload">
+      <input type="file" (change)="onImageUpload($event)" accept="image/*" />
+    </div>
+
+    <div class="dialog-actions">
+      <button mat-button class="action-button" (click)="closeDialog()">Cancelar</button>
+      <button mat-button class="action-button" type="submit">Guardar</button>
+    </div>
+  </form>
+</div>

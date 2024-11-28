@@ -1,32 +1,67 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { map, Observable, tap } from 'rxjs';
 import { User } from '../models/user';
 import { catchError } from 'rxjs';
 import { of } from 'rxjs';
+import { error } from 'console';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
-  private apiUrl = 'https://casmback.integrador.xyz/users/';
-  private loginUrl = 'https://casmback.integrador.xyz/login';
+  private apiUrl = 'http://127.0.0.1:8000/users/';
+  private loginUrl = 'http://127.0.0.1:8000/login';
 
   constructor(private http: HttpClient) {}
 
+  private getHeaders(): HttpHeaders{
+    const token = sessionStorage.getItem('access_token') || localStorage.getItem('access_token') || '';
+    return new HttpHeaders({
+      'Authorization': `Bearer ${token}`,
+    });
+  }
+
   // Método para iniciar sesión
-  loginUser(loginData: { email: string; password: string }): Observable<any> {
-    const headers = new HttpHeaders()
-      .set('Content-Type', 'application/json')
-      .set('accept', 'application/json');
-      
-    return this.http.post<any>(this.loginUrl, loginData, { headers }).pipe(
-      catchError(error => {
-        // Manejo de error para login
-        console.error('Error en inicio de sesión:', error);
-        return of({ error: true, message: 'No se pudo iniciar sesión. Verifica tus credenciales.' });
+  loginUser(any: { email: string; password: string }): Observable<any> {
+    return this.http.post<any>(`${this.loginUrl}`, any).pipe(
+      tap((response: { access_token: string; })=>{
+        const expirationTime = 30 * 60 * 1000;
+        const now = new Date().getTime();
+
+        localStorage.setItem('access_token', response.access_token);
+      }),
+      catchError((error)=>{
+        console.error('Error de login', error);
+        throw error;
       })
     );
+  }
+
+  validateToken(): Observable<boolean> {
+    return this.http
+      .get<{ valid: boolean }>(`${this.loginUrl}validate-token`, { headers: this.getHeaders() })
+      .pipe(
+        map((response) => response.valid),
+        catchError((error) => {
+          console.error('Error al validar el token:', error);
+          return [false]; 
+        })
+      );
+  }
+
+  isTokenExpired(): boolean {
+    const tokenExpiration = localStorage.getItem('tokenExpiration');
+    if (tokenExpiration) {
+      const currentTime = new Date().getTime();
+      return currentTime > parseInt(tokenExpiration);
+    }
+    return true;
+  }
+
+  logout(){
+    sessionStorage.clear();
+    localStorage.clear();
   }
   
   // Método para obtener el perfil del usuario, utilizando el token

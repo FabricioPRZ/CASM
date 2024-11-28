@@ -1,20 +1,29 @@
 <div class="dialog-container">
     <h2 class="dialog-title">Crear Publicación</h2>
-    <form (ngSubmit)="onSubmit()" class="publication-form">
-        <div class="form-group">
-            <label for="description">Descripción</label>
-            <textarea id="description" [(ngModel)]="description" name="description" required></textarea>
-        </div>
+    <form class="publication-form" (ngSubmit)="onSubmit($event)">
+      <div class="form-group">
+        <label for="description">Descripción</label>
+        <textarea 
+          id="description" 
+          name="description" 
+          required 
+          [(ngModel)]="description" 
+          placeholder="Describe tu publicación"></textarea>
+      </div>
   
-        <div class="form-group">
-            <label for="image">Imagen</label>
-            <input type="file" id="image" (change)="onFileSelected($event)" required>
-        </div>
+      <div class="form-group">
+        <label for="image">Imagen</label>
+        <input 
+          type="file" 
+          id="image" 
+          (change)="onFileSelected($event)" 
+          required>
+      </div>
   
-        <div class="dialog-actions">
-            <button type="button" class="cancel-button" (click)="onCancel()">Cancelar</button>
-            <button type="submit" class="create-button">Crear Publicación</button>
-        </div>
+      <div class="dialog-actions">
+        <button type="button" class="cancel-button" (click)="onCancel()">Cancelar</button>
+        <button type="submit" class="create-button">Crear Publicación</button>
+      </div>
     </form>
   </div>
   

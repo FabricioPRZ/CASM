@@ -8,57 +8,43 @@ import { Publication } from '../models/publication';
   providedIn: 'root'
 })
 export class PublicationService {
-  private apiUrl = 'https://casmback.integrador.xyz/publications/';
+  private apiUrl = 'http://127.0.0.1:8000/publications/';
 
   constructor(private http: HttpClient) {}
 
-  // Crear una nueva publicación
+  // Método para crear publicación
   createPublication(formData: FormData): Observable<Publication> {
-    return this.http.post<Publication>(this.apiUrl, formData).pipe(
-      catchError(this.handleError)
-    );
+    // No es necesario establecer las cabeceras para multipart/form-data
+    return this.http.post<Publication>(this.apiUrl, formData)
+      .pipe(catchError(this.handleError));
   }
-  
-  
 
   // Obtener todas las publicaciones
   getPublications(): Observable<Publication[]> {
-    return this.http.get<Publication[]>(this.apiUrl);
+    return this.http.get<Publication[]>(this.apiUrl)
+      .pipe(catchError(this.handleError));
   }
 
-  // Obtener una publicación por su ID
-  getPublicationById(publicationId: number): Observable<Publication> {
-    return this.http.get<Publication>(`${this.apiUrl}${publicationId}`).pipe(
-      catchError(this.handleError)
-    );
+  // Obtener publicación por ID
+  getPublicationById(publicationId: string): Observable<Publication> {
+    return this.http.get<Publication>(`${this.apiUrl}${publicationId}`)
+      .pipe(catchError(this.handleError));
   }
 
-  // Actualizar una publicación
-  updatePublication(publication: Publication): Observable<Publication> {
-    const formData = new FormData();
-    formData.append('description', publication.description);
-    if (publication.image) {
-      formData.append('image', publication.image); // Asegúrate de que `publication.image` sea un archivo.
-    }
-  
-    return this.http.put<Publication>(`${this.apiUrl}${publication.id}`, formData, {
-      headers: { Accept: 'application/json' },
-    }).pipe(
-      catchError(this.handleError)
-    );
-  }
-  
-
-  // Eliminar una publicación
-  deletePublication(publicationId: number): Observable<Publication> {
-    return this.http.delete<Publication>(`${this.apiUrl}${publicationId}`).pipe(
-      catchError(this.handleError)
-    );
+  // Actualizar publicación
+  updatePublication(id: string, formData: FormData): Observable<Publication> {
+    return this.http.put<Publication>(`${this.apiUrl}${id}`, formData)
+      .pipe(catchError(this.handleError));
   }
 
-  // Manejo de errores centralizado
+  // Eliminar publicación
+  deletePublication(id: string): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}${id}`)
+      .pipe(catchError(this.handleError));
+  }
+
   private handleError(error: any): Observable<never> {
-    console.error('Ocurrió un error en la solicitud:', error);
+    console.error('Error occurred:', error);
     return throwError(() => error);
   }
 }

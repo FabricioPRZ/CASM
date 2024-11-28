@@ -1,8 +1,8 @@
 export interface Note {
-    id?: number;
+    id?: string;
     userName?: string;
     title: string;
-    content: string;
+    description: string;
     image?: string;
     createdAt?: Date;
   }
