@@ -7,23 +7,26 @@
             [user_name]="'Dra. Lucía Cruz'" 
             [description]="'Psicóloga clínica con enfoque en terapia cognitivo-conductual y bienestar emocional.'"
             [phone_number]="'+52 987654321'"
-            [email]="'hola@gmail.com'">
+            [email]="'hola@gmail.com'"
+            (messageClicked)="onMessageClicked($event)">
         </app-directory-card>
         <app-directory-card 
             [photo_profile]="'usuario.png'" 
             [user_name]="'Dr. Juan Pérez'" 
             [description]="'Especialista en terapia familiar y orientación para adolescentes.'"
             [phone_number]="'+52 123456789'"
-            [email]="'apoyo@gmail.com'">
+            [email]="'apoyo@gmail.com'"
+            (messageClicked)="onMessageClicked($event)">
         </app-directory-card>
         <app-directory-card 
             [photo_profile]="'usuario.png'" 
             [user_name]="'Dra. María López'" 
             [description]="'Psicoterapeuta con más de 10 años de experiencia en manejo del estrés y ansiedad.'"
             [phone_number]="'+52 654321897'"
-            [email]="'emociones@gmail.com'">
+            [email]="'emociones@gmail.com'"
+            (messageClicked)="onMessageClicked($event)">
         </app-directory-card>
-        
+        <app-chat-siderbar [chats]="chats" (chatSelected)="onChatSelected($event)"></app-chat-siderbar>
     </div>
 </div>
 

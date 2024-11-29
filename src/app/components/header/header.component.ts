@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, HostListener, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
-import { JwtDecoderService } from '../../services/jwt-decoder.service'; // Importar el servicio de decodificación
+import { JwtDecoderService } from '../../services/jwt-decoder.service'; 
 
 @Component({
   selector: 'app-header',
@@ -14,14 +14,13 @@ import { JwtDecoderService } from '../../services/jwt-decoder.service'; // Impor
 export class HeaderComponent implements OnInit {
   isLoggedIn: boolean = false;
   userProfileImage: string = '';
-  userName: string = '';
   isMobileMenuOpen: boolean = false;
   isMobileView: boolean = false;
 
   constructor(
     private router: Router,
     private authService: AuthService,
-    private jwtDecoderService: JwtDecoderService // Inyectar el servicio de decodificación
+    private jwtDecoderService: JwtDecoderService 
   ) {}
 
   ngOnInit(): void {
@@ -33,7 +32,6 @@ export class HeaderComponent implements OnInit {
         const decodedToken = this.jwtDecoderService.decodeToken(token);
 
         if (decodedToken) {
-          this.userName = decodedToken.name || 'Usuario'; // Cambiar "name" al campo correcto del token
           console.log('Token decodificado correctamente:', decodedToken);
         } else {
           console.warn('El token no contiene datos válidos.');
@@ -59,7 +57,6 @@ export class HeaderComponent implements OnInit {
           localStorage.getItem('userProfileImage') || 'usuario.png';
       } else {
         this.userProfileImage = '';
-        this.userName = '';
       }
     });
 

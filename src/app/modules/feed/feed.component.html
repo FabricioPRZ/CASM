@@ -21,7 +21,7 @@
     <app-note-card
       *ngFor="let note of notes"
       [title]="note.title"
-      [content]="note.content"
+      [content]="note.description"
       (share)="onShare($event)">
     </app-note-card>
 </div>

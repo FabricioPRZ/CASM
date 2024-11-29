@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 //casm
 @Component({
   selector: 'app-directory-card',
@@ -13,4 +13,14 @@ export class DirectoryCardComponent {
   @Input() description: string = '';
   @Input() phone_number: string = '';
   @Input() email: string = '';
+  @Output() messageClicked = new EventEmitter<any>();
+
+  onSendMessage() {
+    const user = {
+      name: this.user_name,
+      email: this.email,
+      phone: this.phone_number
+    };
+    this.messageClicked.emit(user);
+  }
 }

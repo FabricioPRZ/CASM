@@ -2,7 +2,6 @@ import { Component, HostListener } from '@angular/core';
 import { FooterComponent } from "../../components/footer/footer.component";
 import { NoteCardComponent } from '../../components/note-card/note-card.component';
 import { SidebarComponent } from '../../components/sidebar/sidebar.component';
-import { NoteDialogComponent } from '../../components/note-dialog/note-dialog.component';
 import { Note } from '../../models/note';
 import { MatDialog } from '@angular/material/dialog';
 import { CommonModule } from '@angular/common';
@@ -18,10 +17,16 @@ import { NotesService } from '../../services/notes.service';
   styleUrl: './notes.component.scss'
 })
 export class NotesComponent {
-  notes: Note[] = [];
-
+  notes: Note[] = [
+      {
+        id: '1',
+        title: 'Hola',
+        description: 'Soy una nota de prueba',
+      },
+  ];
   isSidebarVisible: boolean = true;
   isMobileView: boolean = false;
+  isModalOpen : boolean = false;
   
   constructor(private dialog: MatDialog, private router: Router, private notesService: NotesService) {}
 
@@ -72,30 +77,10 @@ export class NotesComponent {
   }
 
   openNoteDialog(): void {
-    const dialogRef = this.dialog.open(NoteDialogComponent, {
-      width: '400px',
-    });
-  
-    dialogRef.afterClosed().subscribe((result) => {
-      if (result) {
-        const userId = localStorage.getItem('user_id') || ''; // Obtener el user_id (asegúrate de que esté disponible)
-        const newNote: Omit<Note, 'id' | 'createdAt'> = {
-          title: result.title,
-          description: result.content,
-          image: result.image,
-        };
-  
-        this.notesService.createNote(newNote, userId).subscribe({
-          next: (createdNote) => {
-            this.notes.push(createdNote); // Agregar la nueva nota a la lista
-          },
-          error: (err) => {
-            console.error('Error al guardar la nota:', err);
-          },
-        });
-      }
-    });
+    this.isModalOpen = true;
   }
-  
-  
+
+  closeNoteDialog(): void {
+    this.isModalOpen = false;
+  }
 }

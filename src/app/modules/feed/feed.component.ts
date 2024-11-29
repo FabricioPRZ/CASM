@@ -19,7 +19,15 @@ import { Note } from '../../models/note';
   styleUrls: ['./feed.component.scss']
 })
 export class FeedComponent implements OnInit {
-  publications: Publication[] = [];
+  publications: Publication[] = [
+    {
+      id: '1',
+      user_id: '5',
+      user_name: 'ethwszyqg',
+      description: 'fhadgzsdgshfgsrtgsdt',
+      image: 'ghf',
+    },
+  ];
   notes: Note[] = [];
   isSidebarVisible: boolean = true;
   isMobileView: boolean = false;
@@ -48,7 +56,7 @@ export class FeedComponent implements OnInit {
   loadPublications(): void {
     const token = localStorage.getItem('access_token'); // Obtener el token
 
-    if (token) {
+    /*if (token) {
       // Pasar el token a la función de servicio
       this.publicationService.getPublications().subscribe({
         next: (data: Publication[]) => {
@@ -64,7 +72,7 @@ export class FeedComponent implements OnInit {
     } else {
       console.error('No se encontró el token, redirigiendo al login');
       this.router.navigate(['/login']);
-    }
+    }*/
   }
 
   openPublicationDialog(): void {

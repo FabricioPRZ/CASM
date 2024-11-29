@@ -37,17 +37,20 @@
 .favorite-card .user-name {
     font-size: 1.2em;
     font-weight: bold;
+    font-family: "Parkinsans", sans-serif;
     color: #333;
     margin: 5px 0;
 }
 
 .favorite-card .description {
+    font-family: "Parkinsans", sans-serif;
     font-size: 0.9em;
     color: #666;
     margin-bottom: 10px;
 }
 
 .favorite-card .contact-info p {
+    font-family: "Parkinsans", sans-serif;
     font-size: 0.85em;
     color: #555;
     display: flex;
@@ -61,8 +64,10 @@
 
 .favorite-card button {
     margin-top: 10px;
-    padding: 8px 12px;
+    height: 40px;
+    width: 100%;
     font-size: 0.9em;
+    font-family: "Parkinsans", sans-serif;
     color: #ffffff;
     background-color: #007BFF;
     border: none;

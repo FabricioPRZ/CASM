@@ -1,5 +1,5 @@
 import { Component, HostListener, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ChatSiderbarComponent } from "../../components/chat-siderbar/chat-siderbar.component";
 import { ChatWindowsComponent } from "../../components/chat-windows/chat-windows.component";
 import { CommonModule } from '@angular/common';
@@ -30,6 +30,7 @@ export class ChatComponent implements OnInit {
     id_referency: '',
     premium: false,
   };
+  chats: any[] = [];
   isChatWindowOpen: boolean = false;
   isMobileView: boolean = window.innerWidth <= 768;
 
@@ -41,12 +42,16 @@ export class ChatComponent implements OnInit {
     }
   }
 
-  constructor(private userService: UserService, private router: Router) {}
+  constructor(private userService: UserService, private router: Router, private route: ActivatedRoute) {}
 
   ngOnInit(): void {
-    this.loadUserData();
+    this.route.queryParams.subscribe(params => {
+      const { name, email } = params;
+      if (name && email) {
+        this.selectedChat = { name, email, lastMessage: '' };
+      }
+    });
   }
-
   // Función para cargar los datos del usuario
   loadUserData() {
     // Comentamos la verificación del token para permitir el acceso sin autenticación
@@ -80,6 +85,15 @@ export class ChatComponent implements OnInit {
     premium: false,
     };
   }
+
+  addChat(chat: any) {
+    const exists = this.chats.some(existingChat => existingChat.email === chat.email);
+    if (!exists) {
+      this.chats = [...this.chats, chat];
+    }
+    this.selectedChat = chat;
+    this.isChatWindowOpen = true;
+  }  
 
   // Cuando un chat es seleccionado, se abre la ventana del chat
   onChatSelected(chat: any) {

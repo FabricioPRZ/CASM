@@ -9,13 +9,9 @@ import { CommonModule } from '@angular/common';
   styleUrls: ['./chat-siderbar.component.scss']
 })
 export class ChatSiderbarComponent {
+  @Input() chats: any[] = [];
   @Output() chatSelected = new EventEmitter<any>();
-  @Input() isPremium: boolean = true; // Recibe si el usuario es premium
-
-  chats = [
-    { id: '', name: 'Chat 1', lastMessage: 'Hola' },
-    { id: '', name: 'Chat 2', lastMessage: '¿Cómo estás?' },
-  ];
+  @Input() isPremium: boolean = true;
 
   selectChat(chat: any) {
     this.chatSelected.emit(chat);

@@ -1,7 +1,8 @@
 <app-header></app-header>
 <div class="chat-container" [ngClass]="{'chat-open': isChatWindowOpen && isMobileView}">
   <div class="chat-sidebar" *ngIf="!isMobileView || !isChatWindowOpen">
-    <app-chat-siderbar 
+    <app-chat-siderbar
+      [chats]="chats"
       (chatSelected)="onChatSelected($event)" 
       [isPremium]="currentUser.premium || false">
     </app-chat-siderbar>
