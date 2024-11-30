@@ -1,5 +1,4 @@
 import { Component, HostListener } from '@angular/core';
-import { FooterComponent } from "../../components/footer/footer.component";
 import { NoteCardComponent } from '../../components/note-card/note-card.component';
 import { SidebarComponent } from '../../components/sidebar/sidebar.component';
 import { Note } from '../../models/note';
@@ -12,7 +11,7 @@ import { NotesService } from '../../services/notes.service';
 @Component({
   selector: 'app-notes',
   standalone: true,
-  imports: [FooterComponent, NoteCardComponent, SidebarComponent, CommonModule, HeaderComponent],
+  imports: [NoteCardComponent, SidebarComponent, CommonModule, HeaderComponent],
   templateUrl: './notes.component.html',
   styleUrl: './notes.component.scss'
 })
@@ -20,6 +19,7 @@ export class NotesComponent {
   notes: Note[] = [
       {
         id: '1',
+        user_id: '1',
         title: 'Hola',
         description: 'Soy una nota de prueba',
       },

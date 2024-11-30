@@ -24,11 +24,12 @@ export class ChatComponent implements OnInit {
     password: '',
     speciality: '',
     phone: '',
-    role: 'user',
-    document: '',
+    role_name: 'user',
+    cedula: '',
     profile_img: '',
-    id_referency: '',
+    address: '',
     premium: false,
+    is_active: true,
   };
   chats: any[] = [];
   isChatWindowOpen: boolean = false;
@@ -78,11 +79,12 @@ export class ChatComponent implements OnInit {
     password: '',
     speciality: '',
     phone: '',
-    role: 'user',
-    document: '',
+    role_name: 'user',
+    cedula: '',
     profile_img: '',
-    id_referency: '',
+    address: '',
     premium: false,
+    is_active: true,
     };
   }
 

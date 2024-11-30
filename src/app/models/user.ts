@@ -6,9 +6,10 @@ export interface User {
   last_name: string;
   speciality?: string | null;
   phone?: string | null;
-  role?: string | null;
-  document?: string | null;
+  role_name: string | null;
+  cedula?: string | null;
   profile_img?: string | null;
-  id_referency?: string | null;
+  address?: string | null;
   premium?: boolean;
+  is_active: boolean;
 }
