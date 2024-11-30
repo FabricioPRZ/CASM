@@ -19,11 +19,12 @@ export class HeadComponent {
     password: '',
     speciality: '',
     phone: '',
-    role: 'user',
-    document: '',
+    role_name: 'user',
+    cedula: '',
     profile_img: '',
-    id_referency: '',
+    address: '',
     premium: false,
+    is_active: true,
   };
 
   constructor(private dialog: MatDialog, private userService: UserService) {

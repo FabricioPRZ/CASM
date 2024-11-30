@@ -23,14 +23,14 @@ export class FeedComponent implements OnInit {
     {
       id: '1',
       user_id: '5',
-      user_name: 'ethwszyqg',
-      description: 'fhadgzsdgshfgsrtgsdt',
-      image: 'ghf',
+      description: 'Hola, esto es una prueba',
+      image: 'thanks.png',
     },
   ];
   notes: Note[] = [];
   isSidebarVisible: boolean = true;
   isMobileView: boolean = false;
+  isModalOpen : boolean = false;
 
   constructor(
     private publicationService: PublicationService,
@@ -76,13 +76,11 @@ export class FeedComponent implements OnInit {
   }
 
   openPublicationDialog(): void {
-    const dialogRef = this.dialog.open(PublicationDialogComponent);
+    this.isModalOpen = true;
+  }
 
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        this.loadPublications();
-      }
-    });
+  closePublicationDialog(): void {
+    this.isModalOpen = false;
   }
 
   onShare(note: { title: string; content: string }): void {
