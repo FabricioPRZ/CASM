@@ -1,29 +1,34 @@
-import { Component, HostListener } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { DirectoryService } from '../../services/directory.service';
+import { VoluntaryUser } from '../../models/VoluntaryUser';
+import { CommonModule } from '@angular/common';
 import { DirectoryCardComponent } from '../../components/directory-card/directory-card.component';
 import { SidebarComponent } from '../../components/sidebar/sidebar.component';
-import { Router } from '@angular/router';
-import { CommonModule } from '@angular/common';
-import { HeaderComponent } from "../../components/header/header.component";
-import { ChatSiderbarComponent } from '../../components/chat-siderbar/chat-siderbar.component'; // Asegúrate de importar ChatSiderbarComponent
+import { HeaderComponent } from '../../components/header/header.component';
+import { FooterMenuComponent } from '../../components/footer-menu/footer-menu.component';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-directory',
   standalone: true,
-  imports: [DirectoryCardComponent, SidebarComponent, CommonModule, HeaderComponent, ChatSiderbarComponent],
+  imports: [CommonModule, DirectoryCardComponent, SidebarComponent, HeaderComponent, FooterMenuComponent],
   templateUrl: './directory.component.html',
-  styleUrl: './directory.component.scss'
+  styleUrls: ['./directory.component.scss'],
 })
-export class DirectoryComponent {
-
+export class DirectoryComponent implements OnInit {
   isSidebarVisible: boolean = true;
   isMobileView: boolean = false;
-  chats: any[] = []; // Arreglo para almacenar los chats
-  selectedChat: any = null; // Variable para almacenar el chat seleccionado
+  chats: any[] = [];
+  selectedChat: any = null;
 
-  constructor(private router: Router) {}
+  voluntaryUsers: VoluntaryUser[] = [];
+
+  constructor(private router: Router, private directoryService: DirectoryService) {}
 
   ngOnInit(): void {
     this.checkScreenSize();
+    this.loadVoluntaryUsers();
   }
 
   @HostListener('window:resize', ['$event'])
@@ -31,29 +36,32 @@ export class DirectoryComponent {
     this.checkScreenSize();
   }
 
-  onMessageClicked(user: any): void {
-    const newChat = {
-      name: user.name,
-      email: user.email,
-      lastMessage: 'Nuevo Mensaje'
-    };
-    this.addChat(newChat);
+  loadVoluntaryUsers(): void {
+    this.directoryService.getVoluntaryUsers().subscribe({
+      next: (users) => {
+        this.voluntaryUsers = users;
+      },
+      error: (err) => {
+        Swal.fire({
+          icon: 'error',
+          title: 'Error al cargar el directorio',
+          text: 'Hubo un problema al cargar el directorio. Intenta nuevamente más tarde.',
+          confirmButtonText: 'Aceptar',
+        });
+      },
+    });
   }
 
-  addChat(chat: any): void {
-    // Verifica si ya existe un chat con el mismo correo
-    const exists = this.chats.some(existingChat => existingChat.email === chat.email);
-    if (!exists) {
-      this.chats.push(chat);
+  onMessageClicked(user: any): void {
+    this.openTidioChat(user);
+  }
+
+  openTidioChat(user: any) {
+    if (window.tidioChatApi) {
+      window.tidioChatApi.open();
+      window.tidioChatApi.setVisitorName(user.name);
+      window.tidioChatApi.setVisitorEmail(user.email);
     }
-    this.selectedChat = chat; // Selecciona el nuevo chat
-    this.router.navigate(['/chat'], {
-      queryParams: {
-        name: chat.name,
-        email: chat.email,
-        lastMessage: chat.lastMessage
-      }
-    });
   }
 
   checkScreenSize(): void {
@@ -79,16 +87,5 @@ export class DirectoryComponent {
   redirect_to_notes(event: Event): void {
     event.preventDefault();
     this.router.navigate(["/notes"]);
-  }
-
-  onChatSelected(chat: any): void {
-    this.selectedChat = chat; // Actualiza el chat seleccionado
-    this.router.navigate(['/chat'], {
-      queryParams: {
-        name: chat.name,
-        email: chat.email,
-        lastMessage: chat.lastMessage
-      }
-    });
   }
 }

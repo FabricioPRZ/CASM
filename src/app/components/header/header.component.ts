@@ -3,6 +3,9 @@ import { Component, HostListener, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { JwtDecoderService } from '../../services/jwt-decoder.service'; 
+import { UserService } from '../../services/user.service'; // Asegúrate de importar el UserService
+import { User } from '../../models/user'; // Asegúrate de tener el modelo User
+import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'app-header',
@@ -13,14 +16,17 @@ import { JwtDecoderService } from '../../services/jwt-decoder.service';
 })
 export class HeaderComponent implements OnInit {
   isLoggedIn: boolean = false;
+  userProfile: User = {} as User;
   userProfileImage: string = '';
   isMobileMenuOpen: boolean = false;
   isMobileView: boolean = false;
+  private userProfileSubject = new BehaviorSubject<User | null>(null);
 
   constructor(
     private router: Router,
     private authService: AuthService,
-    private jwtDecoderService: JwtDecoderService 
+    private jwtDecoderService: JwtDecoderService,
+    private userService: UserService
   ) {}
 
   ngOnInit(): void {
@@ -28,39 +34,52 @@ export class HeaderComponent implements OnInit {
 
     if (token) {
       try {
-        // Decodificar el token para obtener datos del usuario
         const decodedToken = this.jwtDecoderService.decodeToken(token);
 
         if (decodedToken) {
-          console.log('Token decodificado correctamente:', decodedToken);
         } else {
-          console.warn('El token no contiene datos válidos.');
         }
 
-        // Marcar la sesión como activa si el token es válido
         this.authService.setLoggedIn(true);
+
+        this.loadUserProfile();
       } catch (error) {
-        console.error('Error al decodificar el token:', error);
         this.authService.setLoggedIn(false);
       }
     } else {
-      console.warn('No se encontró un token de acceso en localStorage.');
       this.authService.setLoggedIn(false);
     }
 
-    // Suscribirse al estado de autenticación
     this.authService.loggedIn$.subscribe((status) => {
       this.isLoggedIn = status;
-
-      if (status) {
-        this.userProfileImage =
-          localStorage.getItem('userProfileImage') || 'usuario.png';
-      } else {
+      if (!status) {
         this.userProfileImage = '';
       }
     });
 
     this.updateViewMode();
+  }
+
+  loadUserProfile(): void {
+    const token = localStorage.getItem('access_token') || '';
+    this.userService.getUserProfile(token).subscribe({
+      next: (user: User) => {
+        this.userProfile = user;
+        this.userProfileImage = this.getProfileImgUrl(user);
+        localStorage.setItem('userProfile', JSON.stringify(user));
+        this.userProfileSubject.next(user);
+        console.log('Perfil del usuario:', user);
+      },
+      error: (error) => {
+        console.error('Error al cargar el perfil del usuario', error);
+      },
+    });
+  }
+
+  getProfileImgUrl(user: User): string {
+    const baseUrl = 'https://casmback.integrador.xyz/';
+    const defaultImage = 'usuario.png';
+    return user.profile_img ? `${baseUrl}${user.profile_img}` : defaultImage;
   }
 
   @HostListener('window:resize', ['$event'])
@@ -119,5 +138,9 @@ export class HeaderComponent implements OnInit {
     this.authService.setLoggedIn(false);
     this.isMobileMenuOpen = false;
     this.router.navigate(['/login']);
+  }
+
+  getUserProfileUpdates() {
+    return this.userProfileSubject.asObservable();
   }
 }

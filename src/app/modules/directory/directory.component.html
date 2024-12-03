@@ -1,48 +1,23 @@
 <app-header></app-header>
 <div class="main-container">
-    <app-sidebar *ngIf="isSidebarVisible && !isMobileView"></app-sidebar>
-    <div class="content">
-        <app-directory-card 
-            [photo_profile]="'usuario.png'" 
-            [user_name]="'Dra. Lucía Cruz'" 
-            [description]="'Psicóloga clínica con enfoque en terapia cognitivo-conductual y bienestar emocional.'"
-            [phone_number]="'+52 987654321'"
-            [email]="'hola@gmail.com'"
-            (messageClicked)="onMessageClicked($event)">
-        </app-directory-card>
-        <app-directory-card 
-            [photo_profile]="'usuario.png'" 
-            [user_name]="'Dr. Juan Pérez'" 
-            [description]="'Especialista en terapia familiar y orientación para adolescentes.'"
-            [phone_number]="'+52 123456789'"
-            [email]="'apoyo@gmail.com'"
-            (messageClicked)="onMessageClicked($event)">
-        </app-directory-card>
-        <app-directory-card 
-            [photo_profile]="'usuario.png'" 
-            [user_name]="'Dra. María López'" 
-            [description]="'Psicoterapeuta con más de 10 años de experiencia en manejo del estrés y ansiedad.'"
-            [phone_number]="'+52 654321897'"
-            [email]="'emociones@gmail.com'"
-            (messageClicked)="onMessageClicked($event)">
-        </app-directory-card>
-        <app-chat-siderbar [chats]="chats" (chatSelected)="onChatSelected($event)"></app-chat-siderbar>
-    </div>
+  <app-sidebar *ngIf="isSidebarVisible && !isMobileView"></app-sidebar>
+  <div class="content">
+    <ng-container *ngIf="voluntaryUsers && voluntaryUsers.length > 0; else noDataTemplate">
+      <app-directory-card 
+        *ngFor="let user of voluntaryUsers"
+        [user_name]="user.name + ' ' + user.last_name"
+        [description]="user.speciality || 'Sin especialidad'"
+        [phone_number]="user.phone || 'Sin teléfono'"
+        [email]="user.email"
+        (messageClicked)="onMessageClicked($event)">
+      </app-directory-card>
+    </ng-container>
+    <ng-template #noDataTemplate>
+      <p class="no-data">No hay usuarios voluntarios disponibles.</p>
+    </ng-template>
+  </div>
 </div>
 
 <footer *ngIf="isMobileView" class="footer-menu">
-    <ul class="footer-ul">
-        <li class="footer-li">
-            <a class="footer-a" (click)="redirect_to_notes($event)"><i class="fas fa-edit"></i> Agregar Nota</a>
-        </li>
-        <li class="footer-li">
-            <a class="footer-a" (click)="redirect_to_favorites($event)"><i class="fas fa-heart"></i> Favoritos</a>
-        </li>
-        <li class="footer-li">
-            <a class="footer-a" (click)="redirect_to_feed($event)"><i class="fas fa-newspaper"></i> Publicaciones</a>
-        </li>
-        <li class="footer-li">
-            <a class="footer-a" (click)="redirect_to_chat($event)"><i class="fas fa-paper-plane"></i> Chat</a>
-        </li>
-    </ul>
+  <app-footer-menu></app-footer-menu>
 </footer>

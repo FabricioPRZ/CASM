@@ -1,50 +1,75 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable, throwError } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
 import { Publication } from '../models/publication';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PublicationService {
-  private apiUrl = 'http://127.0.0.1:8000/publications/';
-
+  private baseUrl = 'https://casmback.integrador.xyz/publications/all';
+  private userPublications = 'https://casmback.integrador.xyz/publications/';
+  private baseImageUrl = 'https://casmback.integrador.xyz/';
+  
   constructor(private http: HttpClient) {}
 
-  // Método para crear publicación
-  createPublication(formData: FormData): Observable<Publication> {
-    // No es necesario establecer las cabeceras para multipart/form-data
-    return this.http.post<Publication>(this.apiUrl, formData)
-      .pipe(catchError(this.handleError));
-  }
-
-  // Obtener todas las publicaciones
   getPublications(): Observable<Publication[]> {
-    return this.http.get<Publication[]>(this.apiUrl)
-      .pipe(catchError(this.handleError));
+    return this.http.get<Publication[]>(this.baseUrl).pipe(
+      map((publications: Publication[]) => {
+        console.log('Antes del mapeo:', publications);
+        const mappedPublications = publications.map(publication => ({
+          ...publication,
+          image: publication.image ? `${this.baseImageUrl}${publication.image}` : null,
+          user_name: publication.user_name,
+          photo_profile: publication.profile_img,
+          id_publication: publication.id_publication,
+        }));
+        console.log('Después del mapeo:', mappedPublications);
+        return mappedPublications;
+      })
+    );
+  }  
+
+  getPublicationsUser(): Observable<Publication[]> {
+    return this.http.get<Publication[]>(this.userPublications).pipe(
+      map((publications: Publication[]) =>
+        publications.map(publication => ({
+          ...publication,
+          image: publication.image ? `${this.baseImageUrl}${publication.image}`: null,
+          user_name: publication.user_name,
+          photo_profile: publication.profile_img,
+          id_publication: publication.id_publication
+        }))
+      )
+    );
   }
 
-  // Obtener publicación por ID
-  getPublicationById(publicationId: string): Observable<Publication> {
-    return this.http.get<Publication>(`${this.apiUrl}${publicationId}`)
-      .pipe(catchError(this.handleError));
+  getPublicationById(id_publication: string): Observable<Publication> {
+    return this.http.get<Publication>(`${this.baseUrl}${id_publication}`);
   }
 
-  // Actualizar publicación
-  updatePublication(id: string, formData: FormData): Observable<Publication> {
-    return this.http.put<Publication>(`${this.apiUrl}${id}`, formData)
-      .pipe(catchError(this.handleError));
+  createPublication(description: string, image?: File): Observable<Publication> {
+    const formData = new FormData();
+    formData.append('description', description);
+    if (image) {
+      formData.append('image', image);
+    }
+    return this.http.post<Publication>(this.userPublications, formData);
   }
 
-  // Eliminar publicación
-  deletePublication(id: string): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}${id}`)
-      .pipe(catchError(this.handleError));
+  updatePublication(id_publication: string, description?: string, image?: File): Observable<Publication> {
+    const formData = new FormData();
+    if (description) {
+      formData.append('description', description);
+    }
+    if (image) {
+      formData.append('image', image);
+    }
+    return this.http.put<Publication>(`${this.userPublications}${id_publication}`, formData);
   }
 
-  private handleError(error: any): Observable<never> {
-    console.error('Error occurred:', error);
-    return throwError(() => error);
+  deletePublication(id_publication: string): Observable<{ message: string }> {
+    return this.http.delete<{ message: string }>(`${this.userPublications}${id_publication}`);
   }
 }

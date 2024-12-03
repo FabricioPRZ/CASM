@@ -76,7 +76,6 @@ export class RegisterComponent implements OnInit {
   registerUser(event: Event): void {
     event.preventDefault();
 
-    // Validar los campos antes de continuar
     if (!this.validateInputs()) {
       return;
     }
@@ -86,16 +85,14 @@ export class RegisterComponent implements OnInit {
     const email = this.inputEmail.value;
     const password = this.inputPassword.value;
 
-    // Crear un nuevo objeto FormData
     const formData = new FormData();
     formData.append('name', name);
     formData.append('last_name', last_name);
     formData.append('email', email);
     formData.append('password', password);
-    formData.append('role', 'user');
+    formData.append('role_name', 'user');
     formData.append('premium', 'false');
 
-    // Llamar al servicio para registrar el usuario
     this.userService.registerUser(formData).subscribe(
       () => {
         Swal.fire({
@@ -108,6 +105,7 @@ export class RegisterComponent implements OnInit {
         });
       },
       (error: any) => {
+        console.error('Error al registrar el usuario:', error);
         Swal.fire({
           icon: 'error',
           title: 'Error',

@@ -1,0 +1,43 @@
+<footer *ngIf="isMobileView" class="footer-menu">
+    <ul class="footer-ul">
+      <li class="footer-li">
+        <a class="footer-a" (click)="redirect_to_notes($event)"><i class="fas fa-edit"></i> Agregar Nota</a>
+      </li>
+      <li class="footer-li">
+        <a class="footer-a" (click)="redirect_to_favorites($event)"><i class="fas fa-heart"></i> Favoritos</a>
+      </li>
+      <li class="footer-li">
+        <a class="footer-a" (click)="redirect_to_feed($event)"><i class="fas fa-newspaper"></i> Publicaciones</a>
+      </li>
+      <li class="footer-li">
+        <a class="footer-a" (click)="toggleChat()"><i class="fas fa-paper-plane"></i> Chat</a>
+      </li>
+    </ul>
+  </footer>
+  
+  <div *ngIf="isChatOpen" class="chat-container">
+    <div class="head-chatbot">
+      <h1 class="head-title">CASM</h1>
+      <button class="close-chat-btn" (click)="closeChat()">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+    <div class="messages">
+      <div *ngFor="let response of chatbotResponses" class="message"
+           [ngClass]="{'user-message': response.startsWith('Tú:'), 'chatbot-message': response.startsWith('CASM:')}">
+        <div class="message-content">
+          <i *ngIf="response.startsWith('Tú:')" class="fas fa-user user-icon"></i>
+          <img *ngIf="response.startsWith('CASM:')" src="CASM-NEGRO.png" alt="chatbot avatar" class="avatar">
+          <p class="respuesta-chat">{{ response }}</p>
+        </div>
+      </div>
+    </div>
+  
+    <form [formGroup]="geminiService.form" (ngSubmit)="getAnswer()" class="input-form">
+      <input formControlName="userInput" type="text" placeholder="Escribe tu mensaje..." class="campo-chat"/>
+      <button type="submit" class="enviar-btn">
+        <i class="fas fa-paper-plane"></i>
+      </button>
+    </form>
+  </div>
+  

@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { UserService } from '../../services/user.service';
-import { NotificationComponent } from '../../components/notification/notification.component';
 import { HeaderComponent } from '../../components/header/header.component';
 import { FooterComponent } from '../../components/footer/footer.component';
 import { FormsModule } from '@angular/forms';
@@ -28,13 +27,11 @@ export class LoginComponent implements OnInit {
     this.inputPassword = document.getElementById('password') as HTMLInputElement;
   }
 
-  // Función para manejar el inicio de sesión
   loginUser(event: Event): void {
     event.preventDefault();
     const email = this.inputEmail.value.trim();
     const password = this.inputPassword.value.trim();
 
-    // Validación básica
     if (!email || !password) {
       Swal.fire({
         icon: 'warning',
@@ -52,7 +49,6 @@ export class LoginComponent implements OnInit {
         if (response && response.access_token) {
           console.log('Token recibido:', response.access_token);
 
-          // Guardar el token en el localStorage
           localStorage.setItem('access_token', response.access_token);
 
           Swal.fire({
@@ -61,10 +57,8 @@ export class LoginComponent implements OnInit {
             text: 'Bienvenido al feed.',
             confirmButtonText: 'Aceptar',
           }).then(() => {
-            // Actualizar el estado de autenticación
             this.authService.setLoggedIn(true);
 
-            // Redirigir al feed
             this.router.navigate(['/feed']);
           });
         } else {

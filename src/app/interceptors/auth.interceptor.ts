@@ -6,12 +6,14 @@ export function AuthInterceptor(req: HttpRequest<any>, next: HttpHandlerFn): Obs
   const token = localStorage.getItem('access_token');
 
   if (token) {
-    // Clonamos la solicitud para agregarle el token a las cabeceras
+    const isFormData = req.body instanceof FormData; // Detectar si el cuerpo es FormData
+
+    // Clonamos la solicitud para agregar el token a las cabeceras
     const clonedRequest = req.clone({
       setHeaders: {
         Authorization: `Bearer ${token}`, // Agregar el token en la cabecera Authorization
         Accept: 'application/json',
-        'Content-Type': 'application/json', // Dependiendo de lo que requiera tu backend
+        ...(isFormData ? {} : { 'Content-Type': 'application/json' }), // No configurar Content-Type si es FormData
       },
     });
 

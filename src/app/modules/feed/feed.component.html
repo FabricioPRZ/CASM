@@ -4,13 +4,15 @@
     <div class="content">
         <ng-container *ngFor="let publication of publications">
             <app-publication-card 
-                [photo_profile]="publication.image" 
-                [user_name]="publication.user_id"
+                [photo_profile]="publication.profile_img"
+                [user_name]="publication.user_name"
                 [description]="publication.description" 
-                [image]="publication.image">
+                [image]="publication.image"
+                [id_publication]="publication.id_publication">
             </app-publication-card>
         </ng-container>
     </div>
+    
 </div>
 
 <button class="floating-button" (click)="openPublicationDialog()">
@@ -21,8 +23,7 @@
     <app-note-card
       *ngFor="let note of notes"
       [title]="note.title"
-      [content]="note.description"
-      (share)="onShare($event)">
+      [description]="note.description">
     </app-note-card>
 </div>
 
@@ -32,33 +33,30 @@
     <h1 class="title-modal">Agregar Publicación</h1>
   
     <label for="description" class="label-input">Ingresa la descripción</label>
-    <input type="text" id="description" placeholder="Descripción de la publicación" class="input-text">
+    <input 
+        type="text" 
+        id="description" 
+        placeholder="Descripción de la publicación" 
+        class="input-text" 
+        [(ngModel)]="publicationDescription">
   
     <label for="content" class="label-input">Agrega una imagen</label>
-    <input type="file" id="content" placeholder="Agrega una imagen" class="publication-image">
+    <input 
+        type="file" 
+        id="content" 
+        placeholder="Agrega una imagen" 
+        class="publication-image" 
+        (change)="handleFileInput($event)">
   
     <button class="btn-cancel" (click)="closePublicationDialog()">
       <i class="fas fa-times"></i> Cancelar
     </button>
   
-    <button>
+    <button (click)="createPublication()">
       <i class="fas fa-save"></i> Publicar
     </button>
-  </div>
+</div>
 
 <footer *ngIf="isMobileView" class="footer-menu">
-    <ul class="footer-ul">
-        <li class="footer-li">
-            <a class="footer-a" (click)="redirect_to_notes($event)"><i class="fas fa-edit"></i> Agregar Nota</a>
-        </li>
-        <li class="footer-li">
-            <a class="footer-a" (click)="redirect_to_favorites($event)"><i class="fas fa-heart"></i> Favoritos</a>
-        </li>
-        <li class="footer-li">
-            <a class="footer-a" (click)="redirect_to_feed($event)"><i class="fas fa-newspaper"></i> Publicaciones</a>
-        </li>
-        <li class="footer-li">
-            <a class="footer-a" (click)="redirect_to_chat($event)"><i class="fas fa-paper-plane"></i> Chat</a>
-        </li>
-    </ul>
+    <app-footer-menu></app-footer-menu>
 </footer>

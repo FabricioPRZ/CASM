@@ -7,17 +7,17 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
   providedIn: 'root'
 })
 export class AuthService {
-  private loggedIn = new BehaviorSubject<boolean>(false); // Estado inicial: no logueado
-  loggedIn$ = this.loggedIn.asObservable(); // Observable para suscribirse al estado
+  private loggedIn = new BehaviorSubject<boolean>(false);
+  loggedIn$ = this.loggedIn.asObservable();
 
   constructor(private http: HttpClient) {}
 
   setLoggedIn(status: boolean): void {
-    this.loggedIn.next(status); // Actualiza el estado
+    this.loggedIn.next(status);
   }
 
   isLoggedIn(): boolean {
-    return this.loggedIn.getValue(); // Devuelve el estado actual
+    return this.loggedIn.getValue();
   }
 
   getUserData(userId: string, token: string) {

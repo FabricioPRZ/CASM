@@ -5,7 +5,7 @@
     <ng-container *ngFor="let note of notes">
       <app-note-card
         [title]="note.title"
-        [content]="note.description">
+        [description]="note.description">
       </app-note-card>
     </ng-container>
   </div>
@@ -16,20 +16,7 @@
 </div>
 
 <footer *ngIf="isMobileView" class="footer-menu">
-  <ul class="footer-ul">
-      <li class="footer-li">
-          <a class="footer-a" (click)="redirect_to_notes($event)"><i class="fas fa-edit"></i> Agregar Nota</a>
-      </li>
-      <li class="footer-li">
-          <a class="footer-a" (click)="redirect_to_favorites($event)"><i class="fas fa-heart"></i> Favoritos</a>
-      </li>
-      <li class="footer-li">
-          <a class="footer-a" (click)="redirect_to_feed($event)"><i class="fas fa-newspaper"></i> Publicaciones</a>
-      </li>
-      <li class="footer-li">
-          <a class="footer-a" (click)="redirect_to_chat($event)"><i class="fas fa-paper-plane"></i> Chat</a>
-      </li>
-  </ul>
+  <app-footer-menu></app-footer-menu>
 </footer>
 
 <button class="floating-button" (click)="openNoteDialog()">
@@ -40,22 +27,33 @@
   <i class="fas fa-plus"></i>
 </button>
 
-<div class="agregar-nota-modal" [ngClass]="{'show': isModalOpen}">
-  <img src="CASM.png" alt="logo" class="logo">
+<div class="agregar-nota-modal" [ngClass]="{ 'show': isModalOpen }">
+  <img src="CASM.png" alt="logo" class="logo" />
 
   <h1 class="title-modal">Agregar Notas</h1>
 
   <label for="title" class="label-input">Ingrese el titulo de la nota</label>
-  <input type="text" id="title" placeholder="Titulo de la nota" class="input-text">
+  <input
+    type="text"
+    id="title"
+    placeholder="Titulo de la nota"
+    class="input-text"
+    [(ngModel)]="newNoteTitle"
+  />
 
   <label for="content" class="label-input">Ingrese el contenido de la nota</label>
-  <textarea id="content" placeholder="contenido de la nota" class="textarea-note"></textarea>
+  <textarea
+    id="content"
+    placeholder="contenido de la nota"
+    class="textarea-note"
+    [(ngModel)]="newNoteDescription"
+  ></textarea>
 
   <button class="btn-cancel" (click)="closeNoteDialog()">
     <i class="fas fa-times"></i> Cancelar
   </button>
 
-  <button>
+  <button class="btn-save" (click)="saveNote()">
     <i class="fas fa-save"></i> Guardar
   </button>
 </div>

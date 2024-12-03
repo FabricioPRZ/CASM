@@ -1,31 +1,29 @@
 .main-container {
     display: flex;
-    padding-top: 20px; 
+    padding-top: 20px;
 }
 
 app-sidebar {
-    width: 250px; 
+    width: 250px;
     position: relative;
 }
 
 .favorites-container {
-    display: flex;
-    flex-wrap: wrap; 
-    justify-content: flex-start; 
-    gap: 15px; 
-    padding: 20px; 
-    flex: 1; 
-    margin-top: 0; 
-    margin-left: 20px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Ajusta las columnas automáticamente */
+    gap: 20px; /* Espaciado entre las tarjetas */
+    padding: 20px;
+    margin-top: 0;
+    margin-left: 0;
+    width: 100%;
 }
 
 .favorite-card {
-    width: calc(33.33% - 15px); 
-    height: 150px; 
+    height: auto; /* Permite que la altura se adapte al contenido */
     background-color: #ffffff;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
     border-radius: 10px;
-    padding: 10px;
+    padding: 15px;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     display: flex;
     flex-direction: column;
@@ -35,6 +33,54 @@ app-sidebar {
         transform: translateY(-5px);
         box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
     }
+}
+
+.favorite-card h4 {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.favorite-card p {
+    font-size: 1rem;
+    color: #666;
+    line-height: 1.5;
+    margin-bottom: 15px;
+}
+
+.favorite-card button {
+    margin-top: 15px;
+    height: 45px;
+    width: 100%;
+    font-size: 1rem;
+    font-weight: bold;
+    color: #fff;
+    background: linear-gradient(45deg, #007bff, #0056b3);
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.favorite-card button:hover {
+    background: linear-gradient(45deg, #0056b3, #003f7f);
+    transform: scale(1.05);
+}
+
+.favorite-card button svg {
+    margin-right: 8px;
+}
+
+.favorite-card .empty path {
+    fill: #cccccc;
+}
+
+.favorite-card .filled path {
+    fill: #ff4757;
 }
 
 .footer-menu {
@@ -78,6 +124,18 @@ app-sidebar {
     color: #007bff;
 }
 
+.removed-favorites-container {
+    margin-top: 20px;
+    background-color: #f8d7da;
+    padding: 10px;
+    border: 1px solid #f5c6cb;
+  }
+  
+  .removed {
+    opacity: 0.6;
+  }
+  
+
 @media (max-width: 767px) {
     .main-container {
         flex-direction: column;
@@ -89,14 +147,13 @@ app-sidebar {
     }
 
     .favorites-container {
-        margin-left: 20;
+        grid-template-columns: 1fr; /* Una columna en pantallas pequeñas */
+        gap: 15px;
         padding: 10px;
     }
 
     .favorite-card {
-        width: 95%;
-        height: auto;
-        margin-bottom: 10px;
+        width: 100%;
     }
 
     .footer-menu {
@@ -114,13 +171,26 @@ app-sidebar {
     }
 
     .favorites-container {
-        margin-left: 10px;
-        padding: 15px;
+        grid-template-columns: repeat(2, 1fr); /* Dos columnas en tabletas */
+        gap: 15px; /* Espaciado ajustado entre cards */
     }
 
     .favorite-card {
-        width: calc(50% - 15px);
         height: auto;
+        padding: 10px; /* Reduce el padding interno */
+    }
+
+    .favorite-card h4 {
+        font-size: 1.2rem; /* Texto más pequeño en el título */
+    }
+
+    .favorite-card p {
+        font-size: 0.9rem; /* Texto más pequeño en la descripción */
+    }
+
+    .favorite-card button {
+        height: 40px; /* Botones más compactos */
+        font-size: 0.9rem;
     }
 
     .footer-menu {
