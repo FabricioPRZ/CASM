@@ -1,7 +1,8 @@
 export interface Publication {
-    id: number;
-    user_id: number;
-    user_name: string;
-    description: string;
-    image: string;
+  id_publication: string;
+  id_user: string;
+  description: string;
+  image: string | null;
+  user_name: string;
+  profile_img: string;
 }

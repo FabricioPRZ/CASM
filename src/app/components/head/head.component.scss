@@ -43,3 +43,179 @@
     text-align: center;
     font-size: 1.5em;
 }
+
+.edit-profile-modal {
+    text-align: center;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+    padding: 1rem;
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    width: 90%;
+    max-width: 350px;
+    max-height: 80%;
+    overflow-y: auto;
+    overflow-x: hidden;
+    z-index: 999;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.edit-profile-modal.show {
+    opacity: 1;
+    visibility: visible;
+}
+
+.logo {
+    width: 50px;
+    border-radius: 15%;
+    margin-bottom: 1rem;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: #333333;
+}
+
+.title-modal {
+    text-align: center;
+    font-size: 1rem;
+    margin-bottom: 1rem;
+    font-family: "Parkinsans", sans-serif;
+}
+
+.label-input {
+    display: block;
+    margin-bottom: 0.3rem;
+    font-size: 0.8rem;
+    font-family: "Parkinsans", sans-serif;
+    color: #333;
+}
+
+.input-text, .publication-image {
+    width: 100%;
+    padding: 0.5rem;
+    margin-bottom: 0.8rem;
+    border-radius: 5px;
+    font-family: "Parkinsans", sans-serif;
+    border: 1px solid #ccc;
+    font-size: 0.8rem;
+}
+
+button {
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    border: none;
+    font-size: 0.8rem;
+    font-family: "Parkinsans", sans-serif;
+    margin-right: 0.5rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    width: 100%;
+    max-width: 150px;
+}
+
+.btn-imagen-upload {
+    background-color: #3a7ff0;
+    color: white;
+}
+
+.btn-imagen-upload:hover {
+    background-color: #2f6bc1;
+}
+
+.btn-cancel {
+    background-color: #f44336;
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    border: none;
+    font-size: 0.8rem;
+    font-family: "Parkinsans", sans-serif;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    width: 100%;
+    max-width: 150px;
+}
+
+.btn-cancel:hover {
+    background-color: #e53935;
+}
+
+button:last-child {
+    background-color: #4caf50;
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    border: none;
+    font-size: 0.8rem;
+    font-family: "Parkinsans", sans-serif;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    width: 100%;
+    max-width: 150px;
+}
+
+button:last-child:hover {
+    background-color: #45a049;
+}
+
+.edit-profile-modal .btn-delete {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: #f44336;
+    color: white;
+    border-radius: 5px;
+    width: 100px;
+    padding: 0.3rem 0.5rem;
+    font-size: 0.7rem;
+    font-family: "Parkinsans", sans-serif;
+    cursor: pointer;
+    border: none;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.edit-profile-modal .btn-delete:hover {
+    background-color: #e53935;
+    transform: scale(1.05);
+}
+
+.edit-profile-modal .btn-delete i {
+    margin-right: 0.3rem;
+}
+
+@media (max-width: 768px) {
+    .edit-profile-modal {
+        max-width: 90%;
+        max-height: 85%;
+    }
+
+    .label-input, .input-text, .publication-image {
+        font-size: 0.7rem;
+    }
+
+    button {
+        font-size: 0.7rem;
+        padding: 0.4rem 0.8rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .edit-profile-modal {
+        padding: 0.8rem;
+    }
+
+    .label-input, .input-text, .publication-image {
+        font-size: 0.65rem;
+    }
+
+    button {
+        font-size: 0.65rem;
+        padding: 0.3rem 0.6rem;
+    }
+}

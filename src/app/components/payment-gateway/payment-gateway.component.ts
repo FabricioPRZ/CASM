@@ -1,36 +1,37 @@
-import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { UserService } from '../../services/user.service';
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule } from '@angular/forms';
-
 
 @Component({
-  selector: 'app-payment-gateway',
+  selector: 'app-payment',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [ReactiveFormsModule, CommonModule],
   templateUrl: './payment-gateway.component.html',
-  styleUrl: './payment-gateway.component.scss'
+  styleUrls: ['./payment-gateway.component.scss'],
 })
-export class PaymentGatewayComponent {
-  paymentForm: FormGroup;
+export class PaymentComponent implements OnInit {
+  paymentForm!: FormGroup;
   isPremium: boolean = false;
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder, private userService: UserService) {}
+
+  ngOnInit(): void {
     this.paymentForm = this.fb.group({
-      cardName: ['', [Validators.required]],
-      cardNumber: ['', [Validators.required, Validators.pattern('^[0-9]{16}$')]],
-      expiryDate: ['', [Validators.required, Validators.pattern('^(0[1-9]|1[0-2])\/([0-9]{2})$')]],
-      cvv: ['', [Validators.required, Validators.pattern('^[0-9]{3,4}$')]],
+      cardName: ['', Validators.required],
+      cardNumber: ['', [Validators.required, Validators.pattern(/^\d{16}$/)]],
+      expiryDate: ['', [Validators.required, Validators.pattern(/^(0[1-9]|1[0-2])\/([0-9]{2})$/)]],  // Valida formato MM/YY
+      cvv: ['', [Validators.required, Validators.pattern(/^\d{3,4}$/)]],
     });
   }
 
-  onSubmit() {
+  onSubmit(): void {
     if (this.paymentForm.valid) {
-      this.isPremium = true;
-      console.log('Usuario convertido a premium');
-      alert('¡Felicidades! Ahora eres usuario Premium.');
-    } else {
-      alert('Por favor, completa el formulario correctamente.');
+      this.userService.updatePremiumStatus().subscribe(
+        (user) => {
+          this.isPremium = true;
+        },
+      );
     }
   }
 }

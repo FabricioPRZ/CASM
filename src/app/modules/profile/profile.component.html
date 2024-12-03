@@ -3,28 +3,17 @@
 <div class="main-container">
     <app-sidebar *ngIf="isSidebarVisible && !isMobileView"></app-sidebar>
     <div class="content">
-        <app-publication-card 
-            photo_profile="usuario.png" 
-            user_name="Jose Martinez" 
-            description="Hola, soy una publicación de ejemplo" 
-            image="usuario.png">
-        </app-publication-card>
+        <ng-container *ngFor="let publication of publications">
+            <app-publication-card 
+                [photo_profile]="publication.profile_img"
+                [user_name]="publication.user_name"
+                [description]="publication.description" 
+                [image]="publication.image">
+            </app-publication-card>
+        </ng-container>
     </div>
 </div>
 
 <footer *ngIf="isMobileView" class="footer-menu">
-    <ul class="footer-ul">
-        <li class="footer-li">
-            <a class="footer-a" (click)="redirect_to_notes($event)"><i class="fas fa-edit"></i> Agregar Nota</a>
-        </li>
-        <li class="footer-li">
-            <a class="footer-a" (click)="redirect_to_favorites($event)"><i class="fas fa-heart"></i> Favoritos</a>
-        </li>
-        <li class="footer-li">
-            <a class="footer-a" (click)="redirect_to_feed($event)"><i class="fas fa-newspaper"></i> Publicaciones</a>
-        </li>
-        <li class="footer-li">
-            <a class="footer-a" (click)="redirect_to_chat($event)"><i class="fas fa-paper-plane"></i> Chat</a>
-        </li>
-    </ul>
+    <app-footer-menu></app-footer-menu>
 </footer>

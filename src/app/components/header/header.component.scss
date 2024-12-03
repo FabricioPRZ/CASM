@@ -9,6 +9,7 @@
 
 .header-class-img {
     max-height: 80px;
+    cursor: pointer;
 }
 
 .nav-class {
@@ -18,6 +19,7 @@
 
 .nav-class-a {
     text-decoration: none;
+    font-family: "Parkinsans", sans-serif;
     color: #ffffff;
     font-weight: 500;
     font-size: 18px;
@@ -43,7 +45,6 @@
     cursor: pointer;
 }
 
-/* Menú desplegable */
 .mobile-menu {
     position: absolute;
     top: 50px;

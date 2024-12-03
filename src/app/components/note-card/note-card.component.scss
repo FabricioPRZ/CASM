@@ -7,29 +7,37 @@
   
     .note-title {
       font-size: 1.2em;
-      font-weight: bold;
+      font-family: "Parkinsans", sans-serif;
       color: #333;
       margin-bottom: 8px;
     }
   
     .note-content {
+      font-family: "Parkinsans", sans-serif;
       font-size: 1em;
       color: #555;
       margin-bottom: 10px;
     }
   
     .share-button {
+      font-family: "Parkinsans", sans-serif;
       background-color: #3a7ff0;
       color: #fff;
       border: none;
       border-radius: 5px;
-      padding: 5px 10px;
+      padding: 10px 10px;
       cursor: pointer;
   
       &:hover {
         background-color: #1a4f8e;
       }
     }
+
+    .tittle-note {
+      font-family: "Parkinsans", sans-serif;
+      font-size: 24px;
+      font-weight: bold;
+    } 
   }
   
   @media (max-width: 768px) {

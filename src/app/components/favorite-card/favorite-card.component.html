@@ -1,39 +1,31 @@
 <div class="favorite-card">
     <ng-container *ngIf="type === 'publication'">
-        <app-publication-card
-            [photo_profile]="itemData.photo_profile" 
-            [user_name]="itemData.user_name" 
-            [description]="itemData.description" 
-            [image]="itemData.image">
-        </app-publication-card>
+      <div class="publication-card">
+        <p class="description">{{ itemData.description }}</p>
+        <img class="post-img" [src]="formatImageUrl(itemData.image)" alt="post-image" />
+      </div>
     </ng-container>
-    
-    <ng-container *ngIf="type === 'psychologist'">
-        <div class="directorio-card">
-            <div class="header">
-                <img class="profile-img" [src]="itemData.photo_profile" alt="Foto de perfil">
-                <div class="contact-info">
-                    <h3 class="user-name">{{ itemData.user_name }}</h3>
-                    <p class="description">{{ itemData.description }}</p>
-                    <p class="phone">
-                        <i class="fas fa-phone"></i> {{ itemData.phone }}
-                    </p>
-                    <p class="email">
-                        <i class="fas fa-envelope"></i> {{ itemData.email }}
-                    </p>
-                    <button (click)="sendMessage(itemData.id)">
-                        <i class="fas fa-paper-plane"></i> Enviar Mensaje
-                    </button>
-                </div>
-            </div>
-        </div>
-    </ng-container>
-    
-
+  
     <ng-container *ngIf="type === 'note'">
-        <div class="note-card">
-            <h4>{{ itemData.title }}</h4>
-            <p>{{ itemData.content }}</p>
-        </div>
+      <div class="note-card">
+        <h4>{{ itemData.title }}</h4>
+        <p>{{ itemData.content }}</p>
+      </div>
     </ng-container>
-</div>
+  
+    <button class="favorite-button" (click)="toggleFavorite()">
+      <img
+        *ngIf="isFavorite"
+        class="icon-flaticon"
+        src="https://cdn-icons-png.flaticon.com/512/1828/1828843.png"
+        alt="Remove from favorites"
+      />
+      <img
+        *ngIf="!isFavorite"
+        class="icon-flaticon"
+        src="https://cdn-icons-png.flaticon.com/512/1828/1828970.png"
+        alt="Add to favorites"
+      />
+    </button>
+  </div>
+  

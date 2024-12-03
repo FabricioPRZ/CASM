@@ -1,7 +1,128 @@
 <div class="head">
     <div class="profile-section">
-        <img class="head-img" src="{{ user.profileImage || 'usuario.png' }}" alt="photo-profile">
-        <i class="fas fa-edit edit-icon" (click)="openEditDialog()" title="Editar foto de perfil"></i>
-        <h2 class="user-name">{{ user.name }}</h2>
+      <img class="head-img" [src]="getProfileImgUrl()" alt="Foto de perfil" />
+      <h2 class="user-name">{{ userProfile.name + " " + userProfile.last_name }}</h2>
+      <i
+        class="fas fa-edit edit-icon"
+        (click)="openEditDialog()"
+        title="Editar foto de perfil"
+        aria-label="Editar foto de perfil"
+      ></i>
     </div>
-</div>
+  </div>
+  
+  <div class="edit-profile-modal" [ngClass]="{ show: isModalOpen }">
+    <button
+      class="btn-delete"
+      (click)="deleteProfile()"
+      title="Eliminar Perfil"
+      aria-label="Eliminar Perfil"
+    >
+      <i class="fas fa-trash"></i> Eliminar Perfil
+    </button>
+  
+    <img src="CASM.png" alt="Logo de la aplicación" class="logo" />
+    <h1 class="title-modal">Editar Perfil</h1>
+  
+    <form [formGroup]="profileForm" class="input-container">
+      <div>
+        <label for="name" class="label-input">Nombre(s)</label>
+        <input
+          type="text"
+          id="name"
+          class="input-text"
+          formControlName="name"
+          aria-label="Nombre(s)"
+        />
+      </div>
+  
+      <div>
+        <label for="last_name" class="label-input">Apellido(s)</label>
+        <input
+          type="text"
+          id="last_name"
+          class="input-text"
+          formControlName="last_name"
+          aria-label="Apellido(s)"
+        />
+      </div>
+  
+      <div>
+        <label for="email" class="label-input">Correo Electrónico</label>
+        <input
+          type="email"
+          id="email"
+          class="input-text"
+          formControlName="email"
+          aria-label="Correo Electrónico"
+        />
+      </div>
+  
+      <div>
+        <label for="profilePhoto" class="label-input">Foto de Perfil</label>
+        <input
+          type="file"
+          id="profilePhoto"
+          class="publication-image"
+          (change)="handleFileInput($event, 'profile_img')"
+          aria-label="Foto de Perfil"
+        />
+      </div>
+  
+      <ng-container *ngIf="roleName === 'voluntary'">
+        <div>
+          <label for="specialty" class="label-input">Especialidad</label>
+          <input
+            type="text"
+            id="specialty"
+            class="input-text"
+            formControlName="speciality"
+            aria-label="Especialidad"
+          />
+        </div>
+  
+        <div>
+          <label for="phone" class="label-input">Teléfono</label>
+          <input
+            type="tel"
+            id="phone"
+            class="input-text"
+            formControlName="phone"
+            aria-label="Teléfono"
+          />
+        </div>
+  
+        <div>
+          <label for="address" class="label-input">Dirección</label>
+          <input
+            type="text"
+            id="address"
+            class="input-text"
+            formControlName="address"
+            aria-label="Dirección"
+          />
+        </div>
+  
+        <div>
+          <label for="cedula" class="label-input">Cédula</label>
+          <input
+            type="file"
+            id="cedula"
+            class="input-text"
+            (change)="handleFileInput($event, 'cedula')"
+            aria-label="Cédula"
+          />
+        </div>
+      </ng-container>
+    </form>
+  
+    <div class="actions">
+      <button class="btn-cancel" (click)="closeEditDialog()" aria-label="Cancelar">
+        <i class="fas fa-times"></i> Cancelar
+      </button>
+      <button (click)="updateProfile()" aria-label="Guardar Cambios">
+        <i class="fas fa-save"></i> Guardar
+      </button>
+    </div>
+  </div>
+  
