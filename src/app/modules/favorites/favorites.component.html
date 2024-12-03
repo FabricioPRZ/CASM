@@ -1,28 +1,19 @@
 <app-header></app-header>
 <div class="main-container">
-    <app-sidebar *ngIf="isSidebarVisible && !isMobileView"></app-sidebar>
-    <div class="favorites-container">
-        <app-favorite-card 
-            *ngFor="let item of favoriteItems" 
-            [type]="item.type" 
-            [itemData]="item.itemData">
-        </app-favorite-card>
+  <app-sidebar *ngIf="isSidebarVisible && !isMobileView"></app-sidebar>
+
+  <div class="favorites-container">
+    <div *ngFor="let item of favoriteItems; trackBy: trackById">
+      <app-favorite-card
+        [itemData]="item.itemData"
+        [type]="item.type"
+        (onFavoriteRemoved)="removeFromFavorites($event)"
+      ></app-favorite-card>
     </div>
+  </div>
+  
 </div>
 
 <footer *ngIf="isMobileView" class="footer-menu">
-    <ul class="footer-ul">
-        <li class="footer-li">
-            <a class="footer-a" (click)="redirect_to_notes($event)"><i class="fas fa-edit"></i> Agregar Nota</a>
-        </li>
-        <li class="footer-li">
-            <a class="footer-a" (click)="redirect_to_favorites($event)"><i class="fas fa-heart"></i> Favoritos</a>
-        </li>
-        <li class="footer-li">
-            <a class="footer-a" (click)="redirect_to_feed($event)"><i class="fas fa-newspaper"></i> Publicaciones</a>
-        </li>
-        <li class="footer-li">
-            <a class="footer-a" (click)="redirect_to_chat($event)"><i class="fas fa-paper-plane"></i> Chat</a>
-        </li>
-    </ul>
-  </footer>
+  <app-footer-menu/>
+</footer>

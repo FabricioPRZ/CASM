@@ -1,69 +1,68 @@
 <div class="payment-container">
-    <h2>Convertirse en usuario Premium</h2>
-    <form [formGroup]="paymentForm" (ngSubmit)="onSubmit()">
-      <div class="form-group">
-        <label for="cardName">Nombre en la tarjeta</label>
-        <input
-          id="cardName"
-          type="text"
-          formControlName="cardName"
-          class="form-control"
-          placeholder="Nombre completo"
-        />
-        <small *ngIf="paymentForm.get('cardName')?.invalid && paymentForm.get('cardName')?.touched">
-          Este campo es obligatorio.
-        </small>
-      </div>
-  
-      <div class="form-group">
-        <label for="cardNumber">Número de la tarjeta</label>
-        <input
-          id="cardNumber"
-          type="text"
-          formControlName="cardNumber"
-          class="form-control"
-          placeholder="16 dígitos"
-        />
-        <small *ngIf="paymentForm.get('cardNumber')?.invalid && paymentForm.get('cardNumber')?.touched">
-          Ingresa un número de tarjeta válido.
-        </small>
-      </div>
-  
-      <div class="form-group">
-        <label for="expiryDate">Fecha de expiración (MM/YY)</label>
-        <input
-          id="expiryDate"
-          type="text"
-          formControlName="expiryDate"
-          class="form-control"
-          placeholder="MM/YY"
-        />
-        <small *ngIf="paymentForm.get('expiryDate')?.invalid && paymentForm.get('expiryDate')?.touched">
-          Ingresa una fecha válida (MM/YY).
-        </small>
-      </div>
-  
-      <div class="form-group">
-        <label for="cvv">CVV</label>
-        <input
-          id="cvv"
-          type="password"
-          formControlName="cvv"
-          class="form-control"
-          placeholder="3 o 4 dígitos"
-        />
-        <small *ngIf="paymentForm.get('cvv')?.invalid && paymentForm.get('cvv')?.touched">
-          Ingresa un CVV válido.
-        </small>
-      </div>
-  
-      <button type="submit" class="btn btn-primary" [disabled]="paymentForm.invalid">
-        Pagar y Convertirse en Premium
-      </button>
-    </form>
-  
-    <div *ngIf="isPremium" class="alert alert-success mt-3">
-      ¡Eres ahora un usuario Premium!
+  <h2>Convertirse en usuario Premium</h2>
+  <form [formGroup]="paymentForm" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <label for="cardName">Nombre en la tarjeta</label>
+      <input
+        id="cardName"
+        type="text"
+        formControlName="cardName"
+        class="form-control"
+        placeholder="Nombre completo"
+      />
+      <small *ngIf="paymentForm.get('cardName')?.invalid && paymentForm.get('cardName')?.touched">
+        Este campo es obligatorio.
+      </small>
     </div>
+
+    <div class="form-group">
+      <label for="cardNumber">Número de la tarjeta</label>
+      <input
+        id="cardNumber"
+        type="text"
+        formControlName="cardNumber"
+        class="form-control"
+        placeholder="16 dígitos"
+      />
+      <small *ngIf="paymentForm.get('cardNumber')?.invalid && paymentForm.get('cardNumber')?.touched">
+        Ingresa un número de tarjeta válido.
+      </small>
+    </div>
+
+    <div class="form-group">
+      <label for="expiryDate">Fecha de expiración (MM/YY)</label>
+      <input
+        id="expiryDate"
+        type="text"
+        formControlName="expiryDate"
+        class="form-control"
+        placeholder="MM/YY"
+      />
+      <small *ngIf="paymentForm.get('expiryDate')?.invalid && paymentForm.get('expiryDate')?.touched">
+        Ingresa una fecha válida (MM/YY).
+      </small>
+    </div>
+
+    <div class="form-group">
+      <label for="cvv">CVV</label>
+      <input
+        id="cvv"
+        type="password"
+        formControlName="cvv"
+        class="form-control"
+        placeholder="3 o 4 dígitos"
+      />
+      <small *ngIf="paymentForm.get('cvv')?.invalid && paymentForm.get('cvv')?.touched">
+        Ingresa un CVV válido.
+      </small>
+    </div>
+
+    <button type="submit" class="btn btn-primary" [disabled]="paymentForm.invalid">
+      Pagar y Convertirse en Premium
+    </button>
+  </form>
+
+  <div *ngIf="isPremium" class="alert alert-success mt-3">
+    ¡Eres ahora un usuario Premium!
   </div>
-  
+</div>

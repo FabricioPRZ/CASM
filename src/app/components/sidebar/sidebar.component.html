@@ -10,7 +10,33 @@
             <a class="sidebar-a" (click)="redirect_to_feed($event)"><i class="fas fa-newspaper"></i> Publicaciones</a>
         </li>
         <li class="sidebar-li">
-            <a class="sidebar-a" (click)="redirect_to_chat($event)"><i class="fas fa-paper-plane"></i> Chat</a>
+            <a class="sidebar-a" (click)="toggleChat()"><i class="fas fa-paper-plane"></i> Chat</a>
         </li>
     </ul>
+
+    <div *ngIf="isChatOpen" class="chat-container">
+        <div class="head-chatbot">
+            <h1 class="head-title">CASM</h1>
+            <button class="close-chat-btn" (click)="closeChat()">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="messages">
+            <div *ngFor="let response of chatbotResponses" class="message" 
+                 [ngClass]="{'user-message': response.startsWith('Tú:'), 'chatbot-message': response.startsWith('CASM:')}">
+                <div class="message-content">
+                    <i *ngIf="response.startsWith('Tú:')" class="fas fa-user user-icon"></i>
+                    <img *ngIf="response.startsWith('CASM:')" src="CASM-NEGRO.png" alt="chatbot avatar" class="avatar">
+                    <p class="respuesta-chat">{{ response }}</p>
+                </div>
+            </div>
+        </div>
+
+        <form [formGroup]="geminiService.form" (ngSubmit)="getAnswer()" class="input-form"> 
+            <input formControlName="userInput" type="text" placeholder="Escribe tu mensaje..." class="campo-chat"/>
+            <button type="submit" class="enviar-btn">
+                <i class="fas fa-paper-plane"></i>
+            </button>
+        </form>
+    </div>
 </aside>

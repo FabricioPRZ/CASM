@@ -9,10 +9,10 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
 })
 export class NoteCardComponent {
   @Input() title: string = '';
-  @Input() content: string = '';
-  @Output() share = new EventEmitter<{ title: string, content: string }>();
+  @Input() description: string = '' ;
+  @Output() share = new EventEmitter<{ title: string, description: string }>();
 
   shareNote(): void {
-    this.share.emit({ title: this.title, content: this.content });
+    this.share.emit({ title: this.title, description: this.description });
   }
 }

@@ -14,7 +14,7 @@
     font-size: 48px;
     margin: 0;
     text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
-    font-family: "Merriweather Sans", sans-serif;
+    font-family: "Parkinsans", sans-serif;
     font-weight: bold;
 }
 
@@ -22,7 +22,7 @@
     font-size: 20px;
     margin-top: 20px;
     text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
-    font-family: "Merriweather Sans", sans-serif;
+    font-family: "Parkinsans", sans-serif;
 }
 
 .features {
@@ -45,11 +45,13 @@
 .feature-box-h3-class {
     margin: 20px 0 10px;
     font-size: 22px;
+    font-family: "Parkinsans", sans-serif;
     color: #0d3b66;
 }
 
 .feature-box-p-class {
     color: #666;
+    font-family: "Parkinsans", sans-serif;
 }
 
 @media (max-width: 767px) {
