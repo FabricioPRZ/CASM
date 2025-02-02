@@ -181,7 +181,7 @@ export class FeedComponent implements OnInit {
   }
 
   getFullImageUrl(relativePath: string | null, defaultImage: string): string {
-    const baseUrl = 'https://casmback.integrador.xyz/uploads/';
+    const baseUrl = 'http://127.0.0.1:8000/uploads/';
     if (relativePath) {
       return `${baseUrl}${relativePath.replace('\\', '/')}`;
     }

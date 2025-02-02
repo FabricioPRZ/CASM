@@ -7,7 +7,7 @@ import { Note } from '../models/note';
   providedIn: 'root',
 })
 export class NotesService {
-  private readonly apiUrl = 'https://casmback.integrador.xyz/notes/';
+  private readonly apiUrl = 'http://127.0.0.1:8000/notes/';
 
   constructor(private http: HttpClient) {}
 

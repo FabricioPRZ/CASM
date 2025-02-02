@@ -8,9 +8,9 @@ import { map } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class PublicationService {
-  private baseUrl = 'https://casmback.integrador.xyz/publications/all';
-  private userPublications = 'https://casmback.integrador.xyz/publications/';
-  private baseImageUrl = 'https://casmback.integrador.xyz/';
+  private baseUrl = 'http://127.0.0.1:8000/publications/all';
+  private userPublications = 'http://127.0.0.1:8000/publications/';
+  private baseImageUrl = 'http://127.0.0.1:8000/';
   
   constructor(private http: HttpClient) {}
 

@@ -77,7 +77,7 @@ export class HeaderComponent implements OnInit {
   }
 
   getProfileImgUrl(user: User): string {
-    const baseUrl = 'https://casmback.integrador.xyz/';
+    const baseUrl = 'http://127.0.0.1:8000/';
     const defaultImage = 'usuario.png';
     return user.profile_img ? `${baseUrl}${user.profile_img}` : defaultImage;
   }

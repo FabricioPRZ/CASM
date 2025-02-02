@@ -7,7 +7,7 @@ import { VoluntaryUser } from '../models/VoluntaryUser';
   providedIn: 'root',
 })
 export class DirectoryService {
-  private apiUrl = 'https://casmback.integrador.xyz/voluntarios/';
+  private apiUrl = 'http://127.0.0.1:8000/voluntarios/';
 
   constructor(private http: HttpClient) {}
 
